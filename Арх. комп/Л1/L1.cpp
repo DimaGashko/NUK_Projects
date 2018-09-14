@@ -43,6 +43,7 @@ public:
 
 	void parse(string strNum, usi radix = 10) {
 		setRadix(radix);
+		if (strNum == "") strNum = "0";
 
 		int len = strNum.length();
 		bits.reserve(len);
@@ -57,6 +58,8 @@ public:
 
 			bits.push_back(bit);
 		}
+
+		clean();
 	}
 
 	//Возвращает бит находящийся на позиции pos
@@ -103,6 +106,7 @@ public:
 			num1.addToBit(i + 1, sum / radix);
 		}
 
+		num1.clean();
 		return num1;
 	}
 
@@ -155,6 +159,7 @@ public:
 			num1.setBit(i, sub);
 		}
 
+		num1.clean();
 		return num1;
 	}
 
@@ -170,6 +175,33 @@ public:
 
 	Number copy() {
 		return Number(toString(), getRadix());
+	}
+
+	//Удаляет мусор из числа
+	void clean() {
+		cleanHighZiros();
+	}
+
+	void cleanHighZiros() {
+		int len = bits.size();
+		if (len <= 1 || getBit(len - 1) != 0) return;
+
+		int noZiroIndex = -1;
+
+		for (int i = len - 1; i >= 0; i--) {
+			if (getBit(i) != 0) {
+				noZiroIndex = i;
+				break;
+			}
+		}
+
+		if (noZiroIndex == -1) {
+			bits = {0};
+			return;
+		}
+
+		vector<usi> newBits(bits.begin(), bits.begin() + noZiroIndex + 1);
+		bits = newBits;
 	}
 
 	string toString() {
