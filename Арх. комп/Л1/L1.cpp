@@ -12,10 +12,14 @@ private:
 	vector<usi> bits; //Биты числа (bits[0] - младший бит)
 
 	void setRadix(usi radix) {
+		this->radix = getCorrectReadix(radix);
+	}
+
+	usi getCorrectReadix(usi radix) {
 		if (radix < 2) radix = 2;
 		else if (radix > 36) radix = 36;
 
-		this->radix = radix;
+		return radix;
 	}
 
 	usi charToDigit(char c) {
@@ -32,6 +36,19 @@ private:
 		return '*';
 	}
 
+	//Возвращает число num в виде строки в нужной СЧ
+	string getStrNumInSystem(unsigned long long num, usi radix) {
+		string res = "";
+
+		while (num >= radix) {
+			res += digitToChar(num % radix);
+			num /= radix;
+		}
+
+		res += digitToChar(usi(num));
+		return res;
+	}
+
 public:
 	Number(string strNum, usi radix = 10) {
 		parse(strNum, radix);
@@ -39,6 +56,10 @@ public:
 
 	Number(unsigned long long num) {
 		parse(to_string(num), radix);
+	}
+
+	Number(Number *num) {
+		parse(*num);
 	}
 
 	void parse(string strNum, usi radix = 10) {
@@ -60,6 +81,11 @@ public:
 		}
 
 		clean();
+	}
+
+	void parse(Number &num) {
+		this->radix = num.radix;
+		this->bits = num.bits;
 	}
 
 	//Возвращает бит находящийся на позиции pos
@@ -84,14 +110,23 @@ public:
 		return radix;
 	}
 
-	void setNumberSystem(usi newRadix) {
-		
+	void setSystem(usi radix) {
+		if (this->radix == radix) return;
+		radix = getCorrectReadix(radix); 
+
+		unsigned long long all = 0;
+		for (int i = bits.size() - 1; i >= 0; i--) {
+			all = (all * this->radix) + getBit(i);
+		}
+
+		Number res(getStrNumInSystem(all, radix), radix);
+		parse(res);
 	}
 
 	//Cумирует даное число с переданным числом
 	//Числа могут быть в разных СЧ (результат в СЧ даного числа)
 	Number plus(const Number &_num) {
-		Number num1 = copy();
+		Number num1 = 1;
 		Number num2 = getCorrectNum(_num);
 
 		int len1 = num1.bits.size();
@@ -167,14 +202,14 @@ public:
 		Number res = num.copy();
 		
 		if (res.getRadix() != getRadix()) {
-			res.setNumberSystem(getRadix());
+			res.setSystem(getRadix());
 		}
 
 		return res;
 	}
 
 	Number copy() {
-		return Number(toString(), getRadix());
+		return Number(this);
 	}
 
 	//Удаляет мусор из числа
@@ -238,20 +273,25 @@ int main() {
 	//run();
 	//runTests();
 
-	string n1, n2;
-	usi radix;
+	string n;
+	usi radix1, radix2;
 
-	while (1) {
-		cin >> radix >> n1 >> n2;
+	Number num("15", 10);
+	num.setSystem(2);
 
-		Number num1(n1, radix);
-		Number num2(n2, radix);
+	cout << num << endl;
 
-		Number res = num1 - num2;
+	/*while (1) {
+		cin >> n >> radix1 >> radix2;
 
-		cout << res << endl;
+		Number num(n, radix1);
+		cout << "in:  " << num << endl;
+
+		num.setSystem(radix2);
+		cout << "out: " << num << endl;
+
 		cout << "-----------" << endl;
-	}
+	}*/
 
 	system("pause");
 	return 0;
