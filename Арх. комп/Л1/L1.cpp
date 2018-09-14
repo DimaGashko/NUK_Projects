@@ -106,18 +106,56 @@ public:
 		return num1;
 	}
 
-	Number operator + (const Number &num2) {
-		return plus(num2);
-	}
-
-	void sub(const Number &_num) {
+	Number minus(const Number &_num) {
 		Number num = getCorrectNum(_num);
 
-	}
+		Number num1 = copy();
+		Number num2 = getCorrectNum(_num);
 
-	void div(const Number &_num) {
-		Number num = getCorrectNum(_num);
+		int len1 = num1.bits.size();
+		int len2 = num2.bits.size();
 
+		usi radix = num1.getRadix();
+
+		if (len1 < len2) {
+			num1.parse("0", radix);
+			return num1;
+		}
+
+		for (int i = 0; i < len1; i++) {
+			//тип sub должен допускать отрецательные значения
+			short sub = num1.getBit(i) - num2.getBit(i); 
+
+			if (sub < 0) {
+				sub += radix; //Окончательное значение текущего бита
+
+				bool noBits = true;
+				int j;
+
+				//Ищем бит, у которого можно взять 1
+				for (j = i + 1; j < len1; j++) {
+					if (num1.getBit(j) != 0) {
+						num1.addToBit(j, -1);
+						noBits = false;
+						break;
+					}
+				}
+
+				if (noBits) {
+					num1.parse("0", radix);
+					return num1;
+				}
+
+				//Добавляем по 1 всем промежуточным битам
+				for (j = j - 1; j > i; j--) {
+					num1.setBit(j, radix - 1);
+				}
+			}
+
+			num1.setBit(i, sub);
+		}
+
+		return num1;
 	}
 
 	Number getCorrectNum(Number num) {
@@ -131,7 +169,7 @@ public:
 	}
 
 	Number copy() {
-		return Number(toString());
+		return Number(toString(), getRadix());
 	}
 
 	string toString() {
@@ -144,6 +182,20 @@ public:
 
 		return strNum;
 	}
+
+	friend Number operator + (Number &num1, const Number &num2) {
+		return num1.plus(num2);
+	}
+
+	friend Number operator - (Number &num1, const Number &num2) {
+		return num1.minus(num2);
+	}
+
+	friend ostream& operator << (ostream &out, Number &num) {
+		out << num.toString();
+		return out;
+	}
+	
 };
  
 void run();
@@ -163,9 +215,9 @@ int main() {
 		Number num1(n1, radix);
 		Number num2(n2, radix);
 
-		Number res = num1 + num2;
+		Number res = num1 - num2;
 
-		cout << res.toString() << endl;
+		cout << res << endl;
 		cout << "-----------" << endl;
 	}
 
