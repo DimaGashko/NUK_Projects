@@ -59,10 +59,22 @@ public:
 		}
 	}
 
-	//Возвращает бит находящийся на переданном разряде
+	//Возвращает бит находящийся на позиции pos
 	//Либо 0, если такого разряда нет
 	usi getBit(usi pos) {
 		return (pos < bits.size()) ? bits[pos] : 0;
+	}
+
+	//Устанавливает значение val в бит на позиции pos
+	void setBit(usi pos, usi val) {
+		if (pos >= bits.size()) bits.push_back(val);
+		else bits[pos] = val;
+	} 
+
+	//Добавляет к биту на позиции pos значение val
+	void addToBit(usi pos, usi val) {
+		if (val == 0) return; 
+		setBit(pos, getBit(pos) + val);
 	}
 
 	usi getRadix() {
@@ -73,24 +85,43 @@ public:
 		
 	}
 
-	void add(Number &_num) {
-		Number num = _num.getCorrectNum();
+	//Cумирует даное число с переданным числом
+	//Числа могут быть в разных СЧ (результат в СЧ даного числа)
+	Number plus(const Number &_num) {
+		Number num1 = copy();
+		Number num2 = getCorrectNum(_num);
+
+		int len1 = num1.bits.size();
+		int len2 = num2.bits.size();
+
+		usi radix = num1.getRadix();
 		
+		for (int i = 0; i < len1 || i < len2; i++) {
+			usi sum = num1.getBit(i) + num2.getBit(i);
+
+			num1.setBit(i, sum % radix);
+			num1.addToBit(i + 1, sum / radix);
+		}
+
+		return num1;
+	}
+
+	Number operator + (const Number &num2) {
+		return plus(num2);
+	}
+
+	void sub(const Number &_num) {
+		Number num = getCorrectNum(_num);
 
 	}
 
-	void sub(Number &_num) {
-		Number num = _num.getCorrectNum();
+	void div(const Number &_num) {
+		Number num = getCorrectNum(_num);
 
 	}
 
-	void div(Number &_num) {
-		Number num = _num.getCorrectNum();
-
-	}
-
-	Number getCorrectNum() {
-		Number res = copy();
+	Number getCorrectNum(Number num) {
+		Number res = num.copy();
 		
 		if (res.getRadix() != getRadix()) {
 			res.setNumberSystem(getRadix());
@@ -123,8 +154,20 @@ int main() {
 	//run();
 	//runTests();
 
-	Number num("123ABCDEFRRRXYZ", 36);
-	cout << num.toString() << endl;
+	string n1, n2;
+	usi radix;
+
+	while (1) {
+		cin >> radix >> n1 >> n2;
+
+		Number num1(n1, radix);
+		Number num2(n2, radix);
+
+		Number res = num1 + num2;
+
+		cout << res.toString() << endl;
+		cout << "-----------" << endl;
+	}
 
 	system("pause");
 	return 0;
