@@ -409,24 +409,91 @@ public:
 	
 };
  
-void run();
 void runTests(); 
 void assert(string val, string rightVal, string description);
-  
+Number &get(string num, usi radix);
+
+void help();
+void clean();
+void add();
+void sub();
+void mul();
+void div();
+void leftShift();
+void convert();
+
 int main() {
-	//run();
+	setlocale(LC_ALL, "Russian");
+	string ans;
+
+	help();
+
+	while (true) {
+		cout << "> ";
+		cin >> ans;
+
+		if (ans == "add") add();
+		else if (ans == "sub") sub();
+		else if (ans == "mul") mul();
+		else if (ans == "div") div();
+		else if (ans == "leftShift") leftShift();
+		else if (ans == "convert") convert();
+		else if (ans == "runTests") runTests();
+
+		else if (ans == "help") help();
+		else if (ans == "clean") clean();
+		else if (ans == "exit" || ans == "0") return 0;
+
+		else cout << "Команда не найдена" << endl;
+	}
+
 	runTests();
 
 	system("pause");
 	return 0;
 }
 
-void run() {
-	cout << "Working" << endl;
+void help() {
+	cout << "- - - Number System 0.0.1 - - -" << endl << endl
+		<< "> add: Cуммирование (+)" << endl
+		<< "> sub: Вичитание (-)" << endl
+		<< "> mul: Умножение (*)" << endl
+		<< "> div: Деление (/)" << endl
+		<< "> leftShift: Сдвиг влево (<<)" << endl
+		<< "> convert: Изменить систему счисления" << endl
+		<< "> runTests: Запустить тесты" << endl
+		<< endl
+		<< "> help: помощь" << endl
+		<< "> clean: очистить консоль" << endl
+		<< "> 0: Выход" << endl << endl;
 }
 
-Number &get(string num, usi radix) {
-	return *(new Number(num, radix));
+void clean() {
+	system("cls");
+}
+
+void add() {
+	cout << "add" << endl;
+}
+
+void sub() {
+	cout << "su," << endl;
+}
+
+void mul() {
+	cout << "mul" << endl;
+}
+
+void div() {
+	cout << "div" << endl;
+}
+
+void leftShift() {
+	cout << "left shift" << endl;
+}
+
+void convert() {
+	cout << "convert" << endl;
 }
 
 void runTests() {
@@ -477,6 +544,10 @@ void runTests() {
 	assert(num, "2000", "10000000000000(2) -> 2000(16)");
 
 	cout << endl;
+}
+
+Number &get(string num, usi radix) {
+	return *(new Number(num, radix));
 }
 
 void assert(string val, string rightVal, string description) {
