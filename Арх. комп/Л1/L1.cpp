@@ -207,15 +207,20 @@ public:
 		Number res("0", radix);
 
 		for (int i = 0; i < len2; i++) {
-			num2.getBit(i);
-
-			for (int j = 0; j < len1; j++) {
-				
-			}
+			res = res + num1.mulOnDigit(num2.getBit(i)).leftShift(i);
 		}
 
 		num1.clean();
 		return num1;
+	}
+
+	Number leftShift(unsigned int n) {
+		Number num = copy();
+		vector<usi> shift(n, 0);
+		
+		num.bits.insert(num.bits.begin(), shift.begin(), shift.end());
+
+		return num;
 	}
 
 	Number mulOnDigit(usi digit) {
@@ -298,6 +303,10 @@ public:
 		return num1.minus(num2);
 	}
 
+	friend Number operator << (Number &num, int shift) {
+		return num.leftShift(shift);
+	}
+
 	friend ostream& operator << (ostream &out, Number &num) {
 		out << num.toString();
 		return out;
@@ -316,7 +325,11 @@ int main() {
 	string n;
 	usi d, radix;
 
-	while (1) {
+	Number a("132", 10);
+	a = a << 3;
+	cout << a << endl;
+
+	while (0) {
 		cin >> radix >> n >> d;
 
 		Number num(n, radix);
