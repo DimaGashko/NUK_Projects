@@ -210,8 +210,8 @@ public:
 			res = res + num1.mulOnDigit(num2.getBit(i)).leftShift(i);
 		}
 
-		num1.clean();
-		return num1;
+		res.clean();
+		return res;
 	}
 
 	Number leftShift(unsigned int n) {
@@ -322,23 +322,21 @@ int main() {
 	//run();
 	//runTests();
 
-	string n;
-	usi d, radix;
+	string n, n1;
+	usi radix;
 
-	Number a("132", 10);
-	a = a << 3;
-	cout << a << endl;
+	while (1) {
+		cin >> radix >> n >> n1;
 
-	while (0) {
-		cin >> radix >> n >> d;
+		Number num1(n, radix);
+		Number num2(n1, radix);
+		Number res("0", radix);
+		cout << num1 << endl << num2 << endl << "--------------" << endl;
 
-		Number num(n, radix);
-		cout << "in:  " << num << endl;
+		res = num1.mul(num2);
+		cout << res << endl;
 
-		num = num.mulOnDigit(d);
-		cout << "out: " << num << endl;
-
-		cout << "-----------" << endl;
+		cout << "++++++++++++++++++++++++" << endl;
 	}
 
 	system("pause");
