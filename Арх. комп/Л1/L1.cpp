@@ -256,7 +256,7 @@ public:
 
 		int n = 1;
 
-		while (num1.compare(num2) == 1) {
+		while (num1.compare(num2) >= 0) {
 			auto b = num1.bits.begin() + num1.bits.size();
 			vector<usi> tmpBits(b - n, b);
 			tmp.bits = tmpBits;
@@ -412,25 +412,19 @@ int main() {
 	//run();
 	//runTests();
 
-	string n, n1;
+	string n1, n2;
 	usi radix;
 
-	Number num1("100", 10);
-	Number num2("5000", 10);
-	Number res = num1 / num2;
+	while (1) {
+		cin >> radix >> n1 >> n2;
 
-	cout << res << endl;
-
-	while (0) {
-		cin >> radix >> n >> n1;
-
-		Number num1(n, radix);
-		Number num2(n1, radix);
-		Number res = num1 * num2;
+		Number num1(n1, radix);
+		Number num2(n2, radix);
+		Number res = num1 / num2;
 
 		cout << res << endl;
 
-		cout << "++++++++++++++++++++++++" << endl;
+		cout << "==========================" << endl;
 	}
 
 	system("pause");
