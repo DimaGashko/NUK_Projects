@@ -420,37 +420,52 @@ void sub();
 void mul();
 void div();
 void leftShift();
+void compare();
 void convert();
+void runCommad(const string command);
+
+usi askRadix(const string label = "Введите основание СЧ: ");
+
+template <typename T>
+T prompt(const string label = "Введите значение: ");
 
 int main() {
 	setlocale(LC_ALL, "Russian");
-	string ans;
-
 	help();
 
+	string prevCommand = "help";
+
 	while (true) {
-		cout << "> ";
-		cin >> ans;
+		string command = prompt<string>("> ");
+		if (command == "0") return 0;
 
-		if (ans == "add") add();
-		else if (ans == "sub") sub();
-		else if (ans == "mul") mul();
-		else if (ans == "div") div();
-		else if (ans == "leftShift") leftShift();
-		else if (ans == "convert") convert();
-		else if (ans == "runTests") runTests();
-
-		else if (ans == "help") help();
-		else if (ans == "clean") clean();
-		else if (ans == "exit" || ans == "0") return 0;
-
-		else cout << "Команда не найдена" << endl;
+		if (command == "1") {
+			cout << "> " << prevCommand << endl;
+			runCommad(prevCommand);
+		}
+		else {
+			prevCommand = command;
+			runCommad(command);
+		}
 	}
 
-	runTests();
-
-	system("pause");
 	return 0;
+}
+
+void runCommad(const string command) {
+	if (command == "add") add();
+	else if (command == "sub") sub();
+	else if (command == "mul") mul();
+	else if (command == "div") div();
+	else if (command == "leftShift") leftShift();
+	else if (command == "compare") compare();
+	else if (command == "convert") convert();
+	else if (command == "runTests") runTests();
+
+	else if (command == "help") help();
+	else if (command == "clean") clean();
+
+	else cout << "Команда не найдена" << endl;
 }
 
 void help() {
@@ -460,11 +475,13 @@ void help() {
 		<< "> mul: Умножение (*)" << endl
 		<< "> div: Деление (/)" << endl
 		<< "> leftShift: Сдвиг влево (<<)" << endl
+		<< "> compare: Сравнить числа" << endl
 		<< "> convert: Изменить систему счисления" << endl
-		<< "> runTests: Запустить тесты" << endl
-		<< endl
+		<< "> runTests: Запустить тесты" << endl << endl
+		
 		<< "> help: помощь" << endl
 		<< "> clean: очистить консоль" << endl
+		<< "> 1: повторить последнюю команду" << endl
 		<< "> 0: Выход" << endl << endl;
 }
 
@@ -473,28 +490,87 @@ void clean() {
 }
 
 void add() {
-	cout << "add" << endl;
+	usi radix = askRadix();
+	Number num1(prompt<string>("Введите первое число: "), radix);
+	Number num2(prompt<string>("Введите второе число: "), radix);
+	
+	cout << endl << num1 << " + " << num2 << ": " << endl;
+	cout << (num1 + num2).toString() << endl << endl;
 }
 
 void sub() {
-	cout << "su," << endl;
+	usi radix = askRadix();
+	Number num1(prompt<string>("Из числа: "), radix);
+	Number num2(prompt<string>("Вычесть: "), radix);
+
+	cout << endl << num1 << " - " << num2 << ": " << endl;
+	cout << (num1 - num2).toString() << endl << endl;
 }
 
 void mul() {
-	cout << "mul" << endl;
+	usi radix = askRadix();
+	Number num1(prompt<string>("Первое число: "), radix);
+	Number num2(prompt<string>("Второе число: "), radix);
+
+	cout << endl << num1 << " * " << num2 << ": " << endl;
+	cout << (num1 * num2).toString() << endl << endl;
 }
 
 void div() {
-	cout << "div" << endl;
+	usi radix = askRadix();
+	Number num1(prompt<string>("Число: "), radix);
+	Number num2(prompt<string>("Разделить на: "), radix);
+
+	cout << endl << num1 << " / " << num2 << ": " << endl;
+	cout << (num1 / num2).toString() << endl << endl;
 }
 
 void leftShift() {
-	cout << "left shift" << endl;
+	usi radix = askRadix();
+	Number num(prompt<string>("Введите число: "), radix);
+	unsigned short shift = prompt<unsigned short>("Сместить на: ");
+	if (shift > 1000) shift = 1000;
+
+	cout << endl << num << " << " << shift << ": " << endl;
+	cout << (num << shift).toString() << endl << endl;
+}
+
+void compare() {
+	usi radix1 = askRadix("Введите основание СЧ первого числа: ");
+	Number num1(prompt<string>("Первое число: "), radix1);
+
+	usi radix2 = askRadix("Введите основание СЧ второго числа: ");
+	Number num2(prompt<string>("Второе число: "), radix2);
+
+	string res = "Такое же как число";
+	if (num1.compare(num2) == 1) res = "Больше чем число";
+	else if (num1.compare(num2) == -1) res = "Меньше чем число";
+	
+	cout << endl << "Число " << num1 << "(" << num1.getRadix() << ")";
+	cout << endl << res << ":" << endl;
+	cout << num2 << "(" << num2.getRadix() << ")" << endl << endl;
 }
 
 void convert() {
-	cout << "convert" << endl;
+	usi radix1 = askRadix("Введите текущее основание СЧ: ");
+	Number num(prompt<string>("Введите число: "), radix1);
+	usi radix2 = askRadix("Введите новое основание СЧ: ");
+
+	cout << endl << num << "(" << radix1 << ")" << " -> " << endl;
+	num.setSystem(radix2);
+
+	cout << num << "(" << radix2 << ")" << endl << endl;
 }
+
+usi askRadix(const string label) {
+	usi radix = 0;
+
+	while (radix < 2 || radix > 36) {
+		radix = prompt<usi>(label);
+	}
+
+	return radix;
+} 
 
 void runTests() {
 	Number num1("0", 10), num2("0", 10);
@@ -527,12 +603,21 @@ void runTests() {
 	assert(get("111", 2) << 3, "111000", "111 << 3 = 111000 (2)");
 	assert(get("ZXCQW", 36) << 2, "ZXCQW00", "ZXCQW << 2 = ZXCQW00 (36)");
 	cout << "--------------------------------------------------" << endl;
+	//Compare
+	cout << "Compare Numbers:" << endl;
+	assert(to_string(get("150", 10).compare(get("120", 10))), "1", "150(10) compare 120(10) -> 1");
+	assert(to_string(get("120", 10).compare(get("150", 10))), "-1", "120(10) compare 150(10) -> -1");
+	assert(to_string(get("FF", 16).compare(get("255", 10))), "0", "FF(16) compare 255(10) -> 0");
+	cout << "--------------------------------------------------" << endl;
 	//Nunber System
 	Number num("0", 10);
 	cout << "Convert Number System:" << endl;
 
 	num.parse("15", 10); num.setSystem(2);
 	assert(num, "1111", "15(10) -> 1111(2)");
+
+	num.parse("255", 10); num.setSystem(16);
+	assert(num, "FF", "255(10) -> FF(16)");
 
 	num.parse("FFFFFF", 16); num.setSystem(8);
 	assert(num, "77777777", "FFFFFF(16) -> 77777777(8)");
@@ -554,4 +639,34 @@ void assert(string val, string rightVal, string description) {
 	cout << "- " << (val == rightVal ? "OK" : "FAIL") << ":\t" << description;
 	if (val != rightVal) cout << "\t got: " << val;
 	cout << endl;
+}
+
+/**
+* Запрашивает от пользователя значение нужного типа
+* @param{char[]} label - текст, предложенный пользователю
+*
+* Привет работы:
+* prompt<int>("Введите целое число: ");
+* prompt<char>("Введите символ: ");
+* prompt<string>("Введите строку: ");
+*/
+template <typename T>
+T prompt(const string label) {
+	cout << label;
+
+	while (true) {
+		T val;
+		cin >> val;
+
+		if (cin.fail()) {
+			cin.clear();
+			cin.ignore(32767, '\n');
+			cout << "Произошла ошибка. Введите еще раз: ";
+		}
+		else {
+			cin.ignore(32767, '\n');
+			return val;
+		}
+	}
+
 }
