@@ -245,15 +245,18 @@ public:
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
+		//Div on 0
+
 		int len2 = num2.bits.size();
 
 		usi radix = num1.getRadix();
 		Number res("0", radix);
 		Number tmp("0", radix);
+		Number one("1", radix);
 
 		int n = 1;
 
-		while (num1.bits.size() > len2) {
+		while (num1.compare(num2) == 1) {
 			auto b = num1.bits.begin() + num1.bits.size();
 			vector<usi> tmpBits(b - n, b);
 			tmp.bits = tmpBits;
@@ -264,7 +267,7 @@ public:
 			}
 
 			Number next("0", radix);
-			int k = 0;
+			Number k("0", radix);
 
 			while (true) {
 				next = next + num2;
@@ -274,20 +277,18 @@ public:
 					break;
 				};
 
-				k++;
+				k = k + one;
 			}
 
-			res = res << 1;
-			res.setBit(0, k);
+			int shift = num1.bits.size() - tmp.bits.size();
+			next = next << shift;
+			k = k << shift;
 
-			Number sub = tmp - next;
-
-			vector<usi> newBits(num1.bits.begin(), num1.bits.end() - n); //Либо +1 / -1
-			newBits.insert(newBits.end(), sub.bits.begin(), sub.bits.end());
-			num1.bits = newBits;
+			num1 = num1 - next;
+			res = res + k;
 
 			n = 1;
-			num1.clean();
+			k = Number("0", radix);
 		}
 
 		res.clean();
@@ -414,8 +415,8 @@ int main() {
 	string n, n1;
 	usi radix;
 
-	Number num1("488", 10);
-	Number num2("2", 10);
+	Number num1("100", 10);
+	Number num2("5000", 10);
 	Number res = num1 / num2;
 
 	cout << res << endl;
