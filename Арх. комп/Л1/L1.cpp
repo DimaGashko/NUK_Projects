@@ -36,19 +36,6 @@ private:
 		return '*';
 	}
 
-	//Возвращает число num в виде строки в нужной СЧ
-	string getStrNumInSystem(unsigned long long num, usi radix) {
-		string res = "";
-
-		while (num >= radix) {
-			res  = digitToChar(num % radix) + res;
-			num /= radix;
-		}
-
-		res = digitToChar(usi(num)) + res;
-		return res;
-	}
-
 	Number mulOnDigit(usi digit) {
 		Number num = copy();
 		usi radix = num.getRadix();
@@ -133,6 +120,7 @@ public:
 	void setSystem(usi radix) {
 		if (this->radix == radix) return;
 		radix = getCorrectReadix(radix);
+		Number numRadix(radix, 10);
 
 		//Calc RealNumber
 		Number curRadix = Number(getRadix(), 10);
@@ -144,9 +132,20 @@ public:
 		}
 
 		//To result
-		
-		//Number res(getStrNumInSystem(all, radix), radix);
-		//parse(res);
+		string res = "";
+
+		while (all.compare(numRadix) >= 0) {
+			Number div = all / numRadix;
+			auto a = div * numRadix;
+			usi remainder = (all - a).getBit(0);
+
+			res = digitToChar(remainder) + res;
+			all = Number(div);
+		}
+
+		res = digitToChar(all.getBit(0)) + res;
+
+		parse(*new Number(res, radix));
 	}
 
 	//Cумирует даное число с переданным числом
@@ -412,18 +411,16 @@ int main() {
 	//run();
 	//runTests();
 
-	string n1, n2;
-	usi radix;
+	string n1;
+	usi radix1, radix2;
 
 	while (1) {
-		cin >> radix >> n1 >> n2;
+		cin >> n1 >> radix1 >> radix2;
 
-		Number num1(n1, radix);
-		Number num2(n2, radix);
-		Number res = num1 / num2;
+		Number num(n1, radix1);
+		num.setSystem(radix2);
 
-		cout << res << endl;
-
+		cout << num << endl;
 		cout << "==========================" << endl;
 	}
 
