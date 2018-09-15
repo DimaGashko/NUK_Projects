@@ -49,6 +49,26 @@ private:
 		return res;
 	}
 
+	Number mulOnDigit(usi digit) {
+		Number num = copy();
+		usi radix = num.getRadix();
+		if (digit >= radix) digit = radix - 1;
+
+		int len = num.bits.size();
+		int rest = 0;
+
+		for (int i = 0; i < len; i++) {
+			int mul = num.getBit(i) * digit + rest;
+			num.setBit(i, mul % radix);
+
+			rest = mul / radix;
+		}
+
+		if (rest) num.setBit(len, rest);
+
+		return num;
+	}
+
 public:
 	Number(string strNum, usi radix = 10) {
 		parse(strNum, radix);
@@ -225,14 +245,49 @@ public:
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
-		int len1 = num1.bits.size();
 		int len2 = num2.bits.size();
 
 		usi radix = num1.getRadix();
 		Number res("0", radix);
+		Number tmp("0", radix);
 
-		for (int i = 0; i < len2; i++) {
-			//res = res + num1.mulOnDigit(num2.getBit(i)).leftShift(i);
+		int n = 1;
+
+		while (num1.bits.size() > len2) {
+			auto b = num1.bits.begin() + num1.bits.size();
+			vector<usi> tmpBits(b - n, b);
+			tmp.bits = tmpBits;
+
+			if (tmp.compare(num2) == -1) {
+				n++;
+				continue;
+			}
+
+			Number next("0", radix);
+			int k = 0;
+
+			while (true) {
+				next = next + num2;
+
+				if (next.compare(tmp) > 0) {
+					next = next - num2;
+					break;
+				};
+
+				k++;
+			}
+
+			res = res << 1;
+			res.setBit(0, k);
+
+			Number sub = tmp - next;
+
+			vector<usi> newBits(num1.bits.begin(), num1.bits.end() - n); //Либо +1 / -1
+			newBits.insert(newBits.end(), sub.bits.begin(), sub.bits.end());
+			num1.bits = newBits;
+
+			n = 1;
+			num1.clean();
 		}
 
 		res.clean();
@@ -258,26 +313,6 @@ public:
 		}
 
 		return 0;
-	}
-
-	Number mulOnDigit(usi digit) {
-		Number num = copy();
-		usi radix = num.getRadix();
-		if (digit >= radix) digit = radix - 1;
-
-		int len = num.bits.size();
-		int rest = 0;
-
-		for (int i = 0; i < len; i++) {
-			int mul = num.getBit(i) * digit + rest;
-			num.setBit(i, mul % radix);
-
-			rest = mul / radix;
-		}
-
-		if (rest) num.setBit(len, rest);
-
-		return num;
 	}
 
 	Number leftShift(unsigned int n) {
@@ -353,6 +388,10 @@ public:
 		return num1.mul(num2);
 	}
 
+	friend Number operator / (Number &num1, Number &num2) {
+		return num1.div(num2);
+	}
+
 	friend Number operator << (Number &num, int shift) {
 		return num.leftShift(shift);
 	}
@@ -375,9 +414,11 @@ int main() {
 	string n, n1;
 	usi radix;
 
-	Number num2("11111", 10);
+	Number num1("488", 10);
+	Number num2("2", 10);
+	Number res = num1 / num2;
 
-	cout << Number("11181", 10).compare(num2) << endl;
+	cout << res << endl;
 
 	while (0) {
 		cin >> radix >> n >> n1;
