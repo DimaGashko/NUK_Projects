@@ -54,7 +54,7 @@ public:
 		parse(strNum, radix);
 	}
 
-	Number(unsigned long long num) {
+	Number(unsigned long long num, usi radix = 10) {
 		parse(to_string(num), radix);
 	}
 
@@ -112,20 +112,26 @@ public:
 
 	void setSystem(usi radix) {
 		if (this->radix == radix) return;
-		radix = getCorrectReadix(radix); 
+		radix = getCorrectReadix(radix);
 
-		unsigned long long all = 0;
+		//Calc RealNumber
+		Number curRadix = Number(getRadix(), 10);
+		Number all("0", 10);
+
 		for (int i = bits.size() - 1; i >= 0; i--) {
-			all = (all * this->radix) + getBit(i);
+			Number bit(getBit(i));
+			all = (all * curRadix).plus(bit);
 		}
+
+		//To result
 		
-		Number res(getStrNumInSystem(all, radix), radix);
-		parse(res);
+		//Number res(getStrNumInSystem(all, radix), radix);
+		//parse(res);
 	}
 
 	//Cумирует даное число с переданным числом
 	//Числа могут быть в разных СЧ (результат в СЧ даного числа)
-	Number plus(const Number &_num) {
+	Number plus(Number &_num) {
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
@@ -145,7 +151,7 @@ public:
 		return num1;
 	}
 
-	Number minus(const Number &_num) {
+	Number minus(Number &_num) {
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
@@ -160,7 +166,7 @@ public:
 		}
 
 		for (int i = 0; i < len1; i++) {
-			//тип sub должен допускать отрецательные значения
+			//тип sub должен допускать отрицательные значения
 			short sub = num1.getBit(i) - num2.getBit(i); 
 
 			if (sub < 0) {
@@ -196,7 +202,7 @@ public:
 		return num1;
 	}
 
-	Number mul(const Number &_num) {
+	Number mul(Number &_num) {
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
@@ -207,20 +213,51 @@ public:
 		Number res("0", radix);
 
 		for (int i = 0; i < len2; i++) {
-			res = res + num1.mulOnDigit(num2.getBit(i)).leftShift(i);
+			Number next = num1.mulOnDigit(num2.getBit(i)).leftShift(i);
+			res = res + next;
 		}
 
 		res.clean();
 		return res;
 	}
 
-	Number leftShift(unsigned int n) {
-		Number num = copy();
-		vector<usi> shift(n, 0);
-		
-		num.bits.insert(num.bits.begin(), shift.begin(), shift.end());
+	Number div(Number &_num) {
+		Number num1 = copy();
+		Number num2 = getCorrectNum(_num);
 
-		return num;
+		int len1 = num1.bits.size();
+		int len2 = num2.bits.size();
+
+		usi radix = num1.getRadix();
+		Number res("0", radix);
+
+		for (int i = 0; i < len2; i++) {
+			//res = res + num1.mulOnDigit(num2.getBit(i)).leftShift(i);
+		}
+
+		res.clean();
+		return res;
+	}
+
+	//Сравнивает данное число в переданным
+	//Если оно больше то возв.: 1, меньше: -1, одинаковые: 0
+	short int compare(Number &_num) {
+		Number num = getCorrectNum(_num);
+		num.clean();
+		clean();
+
+		int len1 = bits.size();
+		int len2 = num.bits.size();
+
+		if (len1 > len2) return 1;
+		else if (len1 < len2) return -1;
+
+		for (int i = len1 - 1; i >= 0; i--) {
+			if (getBit(i) > num.getBit(i)) return 1;
+			else if (getBit(i) < num.getBit(i)) return -1;
+		}
+
+		return 0;
 	}
 
 	Number mulOnDigit(usi digit) {
@@ -243,7 +280,16 @@ public:
 		return num;
 	}
 
-	Number getCorrectNum(Number num) {
+	Number leftShift(unsigned int n) {
+		Number num = copy();
+		vector<usi> shift(n, 0);
+
+		num.bits.insert(num.bits.begin(), shift.begin(), shift.end());
+
+		return num;
+	}
+
+	Number getCorrectNum(Number &num) {
 		Number res = num.copy();
 		
 		if (res.getRadix() != getRadix()) {
@@ -295,12 +341,16 @@ public:
 		return strNum;
 	}
 
-	friend Number operator + (Number &num1, const Number &num2) {
+	friend Number operator + (Number &num1, Number &num2) {
 		return num1.plus(num2);
 	}
 
-	friend Number operator - (Number &num1, const Number &num2) {
+	friend Number operator - (Number &num1, Number &num2) {
 		return num1.minus(num2);
+	}
+
+	friend Number operator * (Number &num1, Number &num2) {
+		return num1.mul(num2);
 	}
 
 	friend Number operator << (Number &num, int shift) {
@@ -325,15 +375,17 @@ int main() {
 	string n, n1;
 	usi radix;
 
-	while (1) {
+	Number num2("11111", 10);
+
+	cout << Number("11181", 10).compare(num2) << endl;
+
+	while (0) {
 		cin >> radix >> n >> n1;
 
 		Number num1(n, radix);
 		Number num2(n1, radix);
-		Number res("0", radix);
-		cout << num1 << endl << num2 << endl << "--------------" << endl;
+		Number res = num1 * num2;
 
-		res = num1.mul(num2);
 		cout << res << endl;
 
 		cout << "++++++++++++++++++++++++" << endl;
