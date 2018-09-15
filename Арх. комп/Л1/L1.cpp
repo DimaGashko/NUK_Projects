@@ -128,9 +128,14 @@ public:
 		Number curRadix = Number(getRadix(), 10);
 		Number all("0", 10);
 
-		for (int i = bits.size() - 1; i >= 0; i--) {
-			Number bit(getBit(i));
-			all = (all * curRadix).plus(bit);
+		if (getRadix() == 10) {
+			all.parse(*this);
+		} 
+		else {
+			for (int i = bits.size() - 1; i >= 0; i--) {
+				Number bit(getBit(i));
+				all = (all * curRadix).plus(bit);
+			}
 		}
 
 		//To result
@@ -138,15 +143,14 @@ public:
 
 		while (all.compare(numRadix) >= 0) {
 			Number div = all / numRadix;
-			auto a = div * numRadix;
-			usi remainder = (all - a).getBit(0);
+			Number a = div * numRadix;
+			usi remainder = usi((all - a).toReal());
 
 			res = digitToChar(remainder) + res;
 			all = Number(div);
 		}
 
-		res = digitToChar(all.getBit(0)) + res;
-
+		res = digitToChar(all.toReal()) + res;
 		parse(*new Number(res, radix));
 	}
 
@@ -378,6 +382,18 @@ public:
 		return strNum;
 	}
 
+	//Возвращает реальное число 
+	//Число не должно быть слишком большим
+	unsigned long long toReal() {
+		unsigned long long all = 0;
+
+		for (int i = bits.size() - 1; i >= 0; i--) {
+			all = all * getRadix() + getBit(i);
+		}
+
+		return all;
+	}
+
 	friend Number operator + (Number &num1, Number &num2) {
 		return num1.plus(num2);
 	}
@@ -408,23 +424,17 @@ public:
 	}
 	
 };
- 
-void runTests(); 
+
+void help();		void clean();	void add();
+void sub();			void mul();		void div();
+void leftShift();	void compare();	void convert();
+void runTests();
+
+void runCommad(const string command);
+usi askRadix(const string label = "Введите основание СЧ: ");
+
 void assert(string val, string rightVal, string description);
 Number &get(string num, usi radix);
-
-void help();
-void clean();
-void add();
-void sub();
-void mul();
-void div();
-void leftShift();
-void compare();
-void convert();
-void runCommad(const string command);
-
-usi askRadix(const string label = "Введите основание СЧ: ");
 
 template <typename T>
 T prompt(const string label = "Введите значение: ");
@@ -432,7 +442,7 @@ T prompt(const string label = "Введите значение: ");
 int main() {
 	setlocale(LC_ALL, "Russian");
 	help();
-
+	
 	string prevCommand = "help";
 
 	while (true) {
