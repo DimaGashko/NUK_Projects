@@ -41,11 +41,11 @@ private:
 		string res = "";
 
 		while (num >= radix) {
-			res += digitToChar(num % radix);
+			res  = digitToChar(num % radix) + res;
 			num /= radix;
 		}
 
-		res += digitToChar(usi(num));
+		res = digitToChar(usi(num)) + res;
 		return res;
 	}
 
@@ -118,7 +118,7 @@ public:
 		for (int i = bits.size() - 1; i >= 0; i--) {
 			all = (all * this->radix) + getBit(i);
 		}
-
+		
 		Number res(getStrNumInSystem(all, radix), radix);
 		parse(res);
 	}
@@ -126,7 +126,7 @@ public:
 	//Cумирует даное число с переданным числом
 	//Числа могут быть в разных СЧ (результат в СЧ даного числа)
 	Number plus(const Number &_num) {
-		Number num1 = 1;
+		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
 		int len1 = num1.bits.size();
@@ -146,8 +146,6 @@ public:
 	}
 
 	Number minus(const Number &_num) {
-		Number num = getCorrectNum(_num);
-
 		Number num1 = copy();
 		Number num2 = getCorrectNum(_num);
 
@@ -196,6 +194,48 @@ public:
 
 		num1.clean();
 		return num1;
+	}
+
+	Number mul(const Number &_num) {
+		Number num1 = copy();
+		Number num2 = getCorrectNum(_num);
+
+		int len1 = num1.bits.size();
+		int len2 = num2.bits.size();
+
+		usi radix = num1.getRadix();
+		Number res("0", radix);
+
+		for (int i = 0; i < len2; i++) {
+			num2.getBit(i);
+
+			for (int j = 0; j < len1; j++) {
+				
+			}
+		}
+
+		num1.clean();
+		return num1;
+	}
+
+	Number mulOnDigit(usi digit) {
+		Number num = copy();
+		usi radix = num.getRadix();
+		if (digit >= radix) digit = radix - 1;
+
+		int len = num.bits.size();
+		int rest = 0;
+
+		for (int i = 0; i < len; i++) {
+			int mul = num.getBit(i) * digit + rest;
+			num.setBit(i, mul % radix);
+
+			rest = mul / radix;
+		}
+
+		if (rest) num.setBit(len, rest);
+
+		return num;
 	}
 
 	Number getCorrectNum(Number num) {
@@ -274,24 +314,19 @@ int main() {
 	//runTests();
 
 	string n;
-	usi radix1, radix2;
+	usi d, radix;
 
-	Number num("15", 10);
-	num.setSystem(2);
+	while (1) {
+		cin >> radix >> n >> d;
 
-	cout << num << endl;
-
-	/*while (1) {
-		cin >> n >> radix1 >> radix2;
-
-		Number num(n, radix1);
+		Number num(n, radix);
 		cout << "in:  " << num << endl;
 
-		num.setSystem(radix2);
+		num = num.mulOnDigit(d);
 		cout << "out: " << num << endl;
 
 		cout << "-----------" << endl;
-	}*/
+	}
 
 	system("pause");
 	return 0;
