@@ -426,44 +426,29 @@ public:
 	
 };
 
-void help();		void clean();	void add();
-void sub();			void mul();		void div();
-void leftShift();	void compare();	void convert();
-void runTests();
+template <typename T>
+T prompt(const string label = "Введите значение: ");
 
 void runCommad(const string command);
 usi askRadix(const string label = "Введите основание СЧ: ");
 
+void help(), cls(), add(), sub(), mul(), div();
+void leftShift(), compare(), convert(), runTests();
+
 void assert(string val, string rightVal, string description);
 Number &get(string num, usi radix);
 
-template <typename T>
-T prompt(const string label = "Введите значение: ");
-
-enum ConsoleColor {	Black = 0, Green = 2, Red = 4, White = 15, LightGray = 7};
-
-void resetColor() {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Black));
-};
-
-void setColor(ConsoleColor text, ConsoleColor bg = White) {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, (WORD)((bg << 4) | text));
-};
-
-void printInColor(string str, ConsoleColor text, ConsoleColor bg = White) {
-	setColor(bg, text);
-	cout << str;
-	resetColor();
-}
+enum Color {Black = 0, Green = 2, Red = 4, White = 15, LightGray = 7};
+void resetColor();
+void setColor(Color text, Color bg = White);
+void printInColor(string str, Color text, Color bg = White);
 
 int main() {
 	setlocale(LC_ALL, "Russian");
 	system("color F0");
 
-	help();
 	string prevCommand = "help";
+	help();
 
 	while (true) {
 		string command = prompt<string>("> ");
@@ -493,7 +478,7 @@ void runCommad(const string command) {
 	else if (command == "runTests") runTests();
 
 	else if (command == "help") help();
-	else if (command == "clean") clean();
+	else if (command == "cls") cls();
 
 	else cout << "Команда не найдена" << endl;
 }
@@ -510,12 +495,12 @@ void help() {
 		<< "> runTests: Запустить тесты" << endl << endl
 		
 		<< "> help: помощь" << endl
-		<< "> clean: очистить консоль" << endl
+		<< "> cls: очистить консоль" << endl
 		<< "> 1: повторить последнюю команду" << endl
 		<< "> 0: Выход" << endl << endl;
 }
 
-void clean() {
+void cls() {
 	system("cls");
 }
 
@@ -525,7 +510,8 @@ void add() {
 	Number num2(prompt<string>("Введите второе число: "), radix);
 	
 	cout << endl << num1 << " + " << num2 << ": " << endl;
-	cout << (num1 + num2).toString() << endl << endl;
+	printInColor(num1 + num2, Green);
+	cout << endl << endl;
 }
 
 void sub() {
@@ -534,7 +520,8 @@ void sub() {
 	Number num2(prompt<string>("Вычесть: "), radix);
 
 	cout << endl << num1 << " - " << num2 << ": " << endl;
-	cout << (num1 - num2).toString() << endl << endl;
+	printInColor(num1 - num2, Green);
+	cout << endl << endl;
 }
 
 void mul() {
@@ -543,7 +530,8 @@ void mul() {
 	Number num2(prompt<string>("Второе число: "), radix);
 
 	cout << endl << num1 << " * " << num2 << ": " << endl;
-	cout << (num1 * num2).toString() << endl << endl;
+	printInColor(num1 * num2, Green);
+	cout << endl << endl;
 }
 
 void div() {
@@ -552,7 +540,8 @@ void div() {
 	Number num2(prompt<string>("Разделить на: "), radix);
 
 	cout << endl << num1 << " / " << num2 << ": " << endl;
-	cout << (num1 / num2).toString() << endl << endl;
+	printInColor(num1 / num2, Green);
+	cout <<  endl << endl;
 }
 
 void leftShift() {
@@ -562,7 +551,8 @@ void leftShift() {
 	if (shift > 1000) shift = 1000;
 
 	cout << endl << num << " << " << shift << ": " << endl;
-	cout << (num << shift).toString() << endl << endl;
+	printInColor(num << shift, Green);
+	cout << endl << endl;
 }
 
 void compare() {
@@ -712,4 +702,20 @@ T prompt(const string label) {
 		}
 	}
 
+}
+
+void resetColor() {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Black));
+};
+
+void setColor(Color text, Color bg) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((bg << 4) | text));
+};
+
+void printInColor(string str, Color text, Color bg) {
+	setColor(text, bg);
+	cout << str;
+	resetColor();
 }
