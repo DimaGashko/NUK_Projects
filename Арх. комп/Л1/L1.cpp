@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <windows.h>
 
 using namespace std;
 
@@ -439,10 +440,29 @@ Number &get(string num, usi radix);
 template <typename T>
 T prompt(const string label = "Введите значение: ");
 
+enum ConsoleColor {	Black = 0, Green = 2, Red = 4, White = 15, LightGray = 7};
+
+void resetColor() {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Black));
+};
+
+void setColor(ConsoleColor text, ConsoleColor bg = White) {
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, (WORD)((bg << 4) | text));
+};
+
+void printInColor(string str, ConsoleColor text, ConsoleColor bg = White) {
+	setColor(bg, text);
+	cout << str;
+	resetColor();
+}
+
 int main() {
 	setlocale(LC_ALL, "Russian");
+	system("color F0");
+
 	help();
-	
 	string prevCommand = "help";
 
 	while (true) {
@@ -556,9 +576,9 @@ void compare() {
 	if (num1.compare(num2) == 1) res = "Больше чем число";
 	else if (num1.compare(num2) == -1) res = "Меньше чем число";
 	
-	cout << endl << "Число " << num1 << "(" << num1.getRadix() << ")";
-	cout << endl << res << ":" << endl;
-	cout << num2 << "(" << num2.getRadix() << ")" << endl << endl;
+	cout << endl << "Число " << num1 << "(" << num1.getRadix() << ")" << endl;
+	printInColor(res, Green); 
+	cout << ":" << endl << num2 << "(" << num2.getRadix() << ")" << endl << endl;
 }
 
 void convert() {
@@ -569,7 +589,9 @@ void convert() {
 	cout << endl << num << "(" << radix1 << ")" << " -> " << endl;
 	num.setSystem(radix2);
 
-	cout << num << "(" << radix2 << ")" << endl << endl;
+	string res = num.toString() + "(" + to_string(num.getRadix()) + ")";
+	printInColor(res, Green);
+	cout << endl << endl;
 }
 
 usi askRadix(const string label) {
@@ -592,6 +614,9 @@ void runTests() {
 	assert(get("999", 10) + get("1", 10), "1000", "999 + 1 = 1000 (10)");
 	assert(get("111111", 2) + get("1", 2), "1000000", "111111 + 1 = 1000000 (2)");
 	assert(get("FFFFFF", 16) + get("1", 16), "1000000", "FFFFFF + 1 = 1000000 (16)");
+	//Пример ошибки
+	assert("99", "100", "10 + 15 = 100 (fail)");
+	assert("86", "100", "99 + 15 = 85 (fail)");
 	cout << "--------------------------------------------------" << endl;
 	//Sub
 	cout << "Sub (-):" << endl;
@@ -646,8 +671,16 @@ Number &get(string num, usi radix) {
 }
 
 void assert(string val, string rightVal, string description) {
-	cout << "- " << (val == rightVal ? "OK" : "FAIL") << ":\t" << description;
-	if (val != rightVal) cout << "\t got: " << val;
+	bool pass = (val == rightVal);
+
+	cout << "- ";
+	printInColor((pass ? "OK" : "FAIL"), (pass ? Green : Red));
+	cout << ":\t" << description;
+
+	if (val != rightVal) {
+		printInColor(string("\t got: ") + val + " ", Red);
+	}
+
 	cout << endl;
 }
 
