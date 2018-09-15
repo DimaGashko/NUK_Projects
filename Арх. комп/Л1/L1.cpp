@@ -74,6 +74,8 @@ public:
 		if (strNum == "") strNum = "0";
 
 		int len = strNum.length();
+
+		bits.clear();
 		bits.reserve(len);
 
 		for (int i = len - 1; i >= 0; i--) {
@@ -400,6 +402,10 @@ public:
 		out << num.toString();
 		return out;
 	}
+
+	operator string() {
+		return toString();
+	}
 	
 };
  
@@ -409,20 +415,7 @@ void assert(string val, string rightVal, string description);
   
 int main() {
 	//run();
-	//runTests();
-
-	string n1;
-	usi radix1, radix2;
-
-	while (1) {
-		cin >> n1 >> radix1 >> radix2;
-
-		Number num(n1, radix1);
-		num.setSystem(radix2);
-
-		cout << num << endl;
-		cout << "==========================" << endl;
-	}
+	runTests();
 
 	system("pause");
 	return 0;
@@ -432,10 +425,62 @@ void run() {
 	cout << "Working" << endl;
 }
 
+Number &get(string num, usi radix) {
+	return *(new Number(num, radix));
+}
+
 void runTests() {
-	cout << "Converting:" << endl;
+	Number num1("0", 10), num2("0", 10);
+
+	//Add
+	cout << "Add (+):" << endl;
+	assert(get("0", 10) + get("0", 10), "0", "0 + 0 = 0 (10)");
+	assert(get("10", 10) + get("20", 10), "30", "10 + 20 = 30 (10)");
+	assert(get("999", 10) + get("1", 10), "1000", "999 + 1 = 1000 (10)");
+	assert(get("111111", 2) + get("1", 2), "1000000", "111111 + 1 = 1000000 (2)");
+	assert(get("FFFFFF", 16) + get("1", 16), "1000000", "FFFFFF + 1 = 1000000 (16)");
+	cout << "--------------------------------------------------" << endl;
+	//Sub
+	cout << "Sub (-):" << endl;
+	assert(get("123", 8) - get("123", 8), "0", "123 - 123 = 0 (8)");
+	assert(get("1500", 10) - get("600", 10), "900", "1500 - 600 = 900 (10)");
+	cout << "--------------------------------------------------" << endl;
+	//Mul
+	cout << "Mul (*):" << endl;
+	assert(get("99", 10) * get("500", 10), "49500", "99 * 500 = 49500 (10)");
+	assert(get("FF", 16) * get("FF", 16), "FE01", "FF * FF = FE01 (36)");
+	cout << "--------------------------------------------------" << endl;
+	//Div
+	cout << "Div (/):" << endl;
+	assert(get("1500", 10) / get("7", 10), "214", "1500 / 7 = 214 (10)");
+	assert(get("ZZZ", 36) / get("10", 36), "ZZ", "ZZZ / 10 = ZZ (36)");
+	cout << "--------------------------------------------------" << endl;
+	//LeftShift
+	cout << "LeftShift (<<):" << endl;
+	assert(get("111", 2) << 3, "111000", "111 << 3 = 111000 (2)");
+	assert(get("ZXCQW", 36) << 2, "ZXCQW00", "ZXCQW << 2 = ZXCQW00 (36)");
+	cout << "--------------------------------------------------" << endl;
+	//Nunber System
+	Number num("0", 10);
+	cout << "Convert Number System:" << endl;
+
+	num.parse("15", 10); num.setSystem(2);
+	assert(num, "1111", "15(10) -> 1111(2)");
+
+	num.parse("FFFFFF", 16); num.setSystem(8);
+	assert(num, "77777777", "FFFFFF(16) -> 77777777(8)");
+
+	num.parse("10000000000000", 2); num.setSystem(10);
+	assert(num, "8192", "10000000000000(2) -> 8192(10)");
+
+	num.parse("10000000000000", 2); num.setSystem(16);
+	assert(num, "2000", "10000000000000(2) -> 2000(16)");
+
+	cout << endl;
 }
 
 void assert(string val, string rightVal, string description) {
-	cout << (val == rightVal ? "OK" : "FAIL") << ":\t" << description << endl;
+	cout << "- " << (val == rightVal ? "OK" : "FAIL") << ":\t" << description;
+	if (val != rightVal) cout << "\t got: " << val;
+	cout << endl;
 }
