@@ -4,6 +4,7 @@ void Num::setRadix(usi radix) {
 	this->radix = getCorrectReadix(radix);
 }
 
+// Возвращает корректное значение основания СЧ radix (от 2 до 36)
 usi Num::getCorrectReadix(usi radix) {
 	if (radix < 2) radix = 2;
 	else if (radix > 36) radix = 36;
@@ -77,63 +78,6 @@ void Num::parse(Num &num) {
 	this->bits = vector<usi>(num.bits.begin(), num.bits.end());
 }
 
-//Возвращает бит находящийся на позиции pos
-//Либо 0, если такого разряда нет
-usi Num::getBit(usi pos) {
-	return (pos < bits.size()) ? bits[pos] : 0;
-}
-
-//Устанавливает значение val в бит на позиции pos
-void Num::setBit(usi pos, usi val) {
-	if (pos >= bits.size()) bits.push_back(val);
-	else bits[pos] = val;
-}
-
-//Добавляет к биту на позиции pos значение val
-void Num::addToBit(usi pos, usi val) {
-	if (val == 0) return;
-	setBit(pos, getBit(pos) + val);
-}
-
-//Возвращает количество битов
-unsigned int Num::size() {
-	return bits.size();
-}
-
-usi Num::getRadix() {
-	return radix;
-}
-
-void Num::setSystem(usi _radix) {
-	if (this->radix == _radix) return;
-	_radix = getCorrectReadix(_radix);
-
-	Num radix(_radix), curRadix(getRadix()), all("0", 10);
-
-	//Calc RealNum
-	if (getRadix() == 10) {
-		all.parse(*this);
-	}
-	else {
-		for (int i = size() - 1; i >= 0; i--) {
-			all = (all * curRadix) + Num(getBit(i));
-		}
-	}
-
-	//To result
-	string res = "";
-	while (all.compare(radix) >= 0) {
-		Num div = all / radix;
-		usi rem = usi((all - (div * radix)).toReal());
-
-		res = digitToChar(rem) + res;
-		all = div;
-	}
-
-	res = digitToChar(usi(all.toReal())) + res;
-	parse(*new Num(res, _radix));
-}
-
 Num Num::plus(Num &_num) {
 	Num num1 = copy(), num2 = getCorrectNum(_num);
 	int len1 = num1.size(), len2 = num2.size();
@@ -205,8 +149,9 @@ Num Num::div(Num &_num) {
 	Num num1 = copy(), num2 = getCorrectNum(_num);
 	usi radix = num1.getRadix();
 
-	if (Num(0, radix).compare(_num) == 0)
-		int len2 = num2.size();
+	if (Num(0, radix).compare(_num) == 0) {
+		return Num(0, radix);
+	}
 
 	Num res("0", radix), tmp("0", radix);
 	int n = 1;
@@ -243,6 +188,14 @@ Num Num::div(Num &_num) {
 	return res;
 }
 
+Num Num::leftShift(unsigned int n) {
+	Num num = copy();
+	vector<usi> shift(n, 0);
+
+	num.bits.insert(num.bits.begin(), shift.begin(), shift.end());
+	return num;
+}
+
 //Сравнивает данное число c переданным
 //Если оно больше то возв.: 1, меньше: -1, одинаковые: 0
 short int Num::compare(Num &_num) {
@@ -261,12 +214,61 @@ short int Num::compare(Num &_num) {
 	return 0;
 }
 
-Num Num::leftShift(unsigned int n) {
-	Num num = copy();
-	vector<usi> shift(n, 0);
+void Num::setSystem(usi _radix) {
+	if (this->radix == _radix) return;
+	_radix = getCorrectReadix(_radix);
 
-	num.bits.insert(num.bits.begin(), shift.begin(), shift.end());
-	return num;
+	Num radix(_radix), curRadix(getRadix()), all("0", 10);
+
+	//Собираем все биты в одно число
+	if (getRadix() == 10) {
+		all.parse(*this);
+	}
+	else {
+		for (int i = size() - 1; i >= 0; i--) {
+			all = (all * curRadix) + Num(getBit(i));
+		}
+	}
+
+	//Разбиваем на нужную СЧ
+	string res = "";
+	while (all.compare(radix) >= 0) {
+		Num div = all / radix;
+		usi rem = usi((all - (div * radix)).toReal());
+
+		res = digitToChar(rem) + res;
+		all = div;
+	}
+
+	res = digitToChar(usi(all.toReal())) + res;
+	parse(*new Num(res, _radix));
+}
+
+//Возвращает бит находящийся на позиции pos
+//Либо 0, если такого разряда нет
+usi Num::getBit(usi pos) {
+	return (pos < bits.size()) ? bits[pos] : 0;
+}
+
+//Устанавливает значение val в бит на позиции pos
+void Num::setBit(usi pos, usi val) {
+	if (pos >= bits.size()) bits.push_back(val);
+	else bits[pos] = val;
+}
+
+//Добавляет к биту на позиции pos значение val
+void Num::addToBit(usi pos, usi val) {
+	if (val == 0) return;
+	setBit(pos, getBit(pos) + val);
+}
+
+usi Num::getRadix() {
+	return radix;
+}
+
+//Возвращает количество битов
+unsigned int Num::size() {
+	return bits.size();
 }
 
 Num Num::getCorrectNum(Num &num) {
@@ -276,7 +278,9 @@ Num Num::getCorrectNum(Num &num) {
 	return res;
 }
 
-Num Num::copy() { return Num(this); }
+Num Num::copy() { 
+	return Num(this); 
+}
 
 //Удаляет мусор из числа
 void Num::clean() {

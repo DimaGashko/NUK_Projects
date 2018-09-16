@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <windows.h>
 
 #include "Num.h"
@@ -151,7 +152,9 @@ void convert() {
 	printInColor(res, Green); cout << endl << endl;
 }
 
-void cls() { system("cls"); }
+void cls() { 
+	system("cls"); 
+}
 
 usi askRadix(const string label) {
 	usi radix = 0;

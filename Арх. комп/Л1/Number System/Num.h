@@ -56,12 +56,7 @@ public:
 	friend Num operator * (Num num1, Num num2) { return num1.mul(num2); }
 	friend Num operator / (Num num1, Num num2) { return num1.div(num2); }
 	friend Num operator << (Num num, int shift) { return num.leftShift(shift); }
-
-	friend ostream& operator << (ostream &out, Num &num) {
-		out << num.toString();
-		return out;
-	}
-
+	friend ostream& operator << (ostream &out, Num &num) { return out << num.toString();}
 	operator string() { return toString(); }
 
 };
