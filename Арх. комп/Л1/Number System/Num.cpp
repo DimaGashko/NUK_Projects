@@ -215,7 +215,7 @@ short int Num::compare(Num &_num) {
 }
 
 void Num::setSystem(usi _radix) {
-	if (this->radix == _radix) return;
+	if (getRadix() == _radix) return;
 	_radix = getCorrectReadix(_radix);
 
 	Num radix(_radix), curRadix(getRadix()), all("0", 10);
