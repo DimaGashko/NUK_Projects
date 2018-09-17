@@ -8,6 +8,8 @@
 using namespace std;
 typedef unsigned short int usi;
 
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
 template <typename T>
 T prompt(const string label = "Введите значение: ");
 
@@ -119,7 +121,8 @@ void div() {
 void leftShift() {
 	usi radix = askRadix();
 	Num num(prompt<string>("Введите число: "), radix);
-	unsigned shift = min(prompt<unsigned>("Сместить на: "), 1000);
+	unsigned shift = prompt<unsigned>("Сместить на: ");
+	shift = min(shift, 1000);
 
 	cout << endl << num << " << " << shift << ": " << endl;
 	printInColor(num << shift, Green); cout << endl << endl;
@@ -174,8 +177,8 @@ void runTests() {
 	assert(Num("999", 10) + Num("1", 10), "1000", "999 + 1 = 1000 (10)");
 	assert(Num("111111", 2) + Num("1", 2), "1000000", "111111 + 1 = 1000000 (2)");
 	assert(Num("FFFFFF", 16) + Num("1", 16), "1000000", "FFFFFF + 1 = 1000000 (16)");
-	assert(Num("99"), Num("100"), "10 + 15 = 100 (fail)"); //Пример ошибки
-	assert(Num("86"), Num("34"), "99 + 15 = 85 (fail)"); //Пример ошибки
+	assert(Num("99"), Num("100"), "10 + 15 = 100 (Пример ошибки)"); //Пример ошибки
+	assert(Num("86"), Num("34"), "99 + 15 = 85 (Пример ошибки)"); //Пример ошибки
 	cout << "--------------------------------------------------" << endl;
 	//Sub
 	cout << "Sub (-):" << endl;
@@ -255,12 +258,10 @@ T prompt(const string label) {
 }
 
 void resetColor() {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)((White << 4) | Black));
 };
 
 void setColor(Color text, Color bg) {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, (WORD)((bg << 4) | text));
 };
 
