@@ -4,35 +4,6 @@ import java.util.Scanner;
 import static java.lang.Math.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Main app = new Main();
-        app.run();
-    }
-
-    private void run() {
-        double a = askDouble("Введите а: ");
-        double start = askDouble("Начальное значение х: ");
-        double end = askDouble("Конечное значение х: ");
-        double step = askDouble("Значение шага: ");
-
-        double[] allX = getAllX(start, end, step);
-        double[] allY = getAllY(allX, a);
-
-        System.out.println("\n - - - - - ");
-
-        System.out.println("Максимальное значние функции: ");
-        printEl(allY, getIndexOfMax(allY));
-
-        System.out.println("Минимальное значние функции: ");
-        printEl(allY, getIndexOfMin(allY));
-
-        System.out.println("Сумма значений: ");
-        System.out.println(getSumOfElements(allY));
-
-        System.out.println("Среднее арифметичное: ");
-        System.out.println(getAverage(allY));
-    }
-
     private double askDouble(String title) {
         Scanner scanner = new Scanner(System.in);
 
@@ -112,16 +83,20 @@ public class Main {
         return (int)((end - start) / step + 0.000001) + 1;
     }
 
-    public double calcY(double x, double a) {
-        if (x <= 0.3) {
+    public double calcY(double x, double a, double epsilon) {
+        if (x - 0.3 <= epsilon) {
             return 1.5 * a * cos(x) * cos(x);
 
-        } else if (x <= 2.3) {
+        } else if (x - 2.3 <= epsilon) {
             return (x - 2) * (x - 2) + (6 * a);
 
         } else {
             return 3 * a * tan(x);
         }
+    }
+
+    public double calcY(double x, double a) {
+        return calcY(x, a, 0.001);
     }
 
 }

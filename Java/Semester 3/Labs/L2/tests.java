@@ -38,15 +38,15 @@ class MainTest {
     @Test
     void testCalcYBorder1() {
         double expected = 1.369;
-        double result = main.calcY(0.3, 1);
-        assertEquals(expected, result, 0.001, "x == 0.3 должен считаться по первому уравнению");
+        double result = main.calcY(0.3000000000001, 1);
+        assertEquals(expected, result, 0.001, "x == 0.3000..001 должен считаться по первому уравнению");
     }
 
     @Test
     void testCalcYBorder2() {
         double expected = 6.09;
-        double result = main.calcY(2.3, 1);
-        assertEquals(expected, result, 0.001, "x == 2.3 должен считаться по второму уравнению");
+        double result = main.calcY(2.300000000001, 1);
+        assertEquals(expected, result, 0.001, "x == 2.300..01 должен считаться по второму уравнению");
     }
 
     // - - - TabulationSteps - - -
