@@ -14,7 +14,8 @@ dad(kim, alan).
 dad(jack, kim).
 
 % X is Y's brother or sister
-sibling(X, Y) :- mom(Mom, X), mom(Mom, Y), dad(Dad, X), dad(Dad, Y), X \= Y.
+sibling(X, Y) :- mom(Mom, X), mom(Mom, Y), 
+   dad(Dad, X), dad(Dad, Y), X \= Y.
 
 % X is Y's dad
 grandfather(X, Y) :- dad(X, D), dad(D, Y).
