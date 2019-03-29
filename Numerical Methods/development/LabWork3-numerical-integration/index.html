@@ -16,7 +16,41 @@
    <div class="wrapper">
          <h1>Numerical Integration</h1>
 
-         <h3>Results in the console</h3>
+         <form class="setup_form">
+            <div class="setup_form-row">
+               <label class="setup_form-item"> 
+                  <div class="setup_form-label">Function:</div>
+                  <input type="text" class="setup_form-field" name="function">
+               </label>
+            </div>
+            <div class="setup_form-row">
+                  <label class="setup_form-item"> 
+                        <span class="setup_form-label">Method:/span>
+                        <select name="method">
+                           <option value="simpson">Simpson's Method</option>
+                           <option value="trapezoidal">Trapezoidal</option>
+                           <option value="Middle Rectangular">Left Rectangular</option>
+                           <option value="rightRectangular">Right Rectangular</option>
+                           <option value="leftRectangular">Left Rectangular</option>
+                        </select>
+                  </label>
+                  <label class="setup_form-item"> 
+                        <span class="setup_form-label">From:</span>
+                        <input type="text" class="setup_form-field" name="from">
+                  </label>
+                  <label class="setup_form-item"> 
+                        <span class="setup_form-label">To:</span>
+                        <input type="text" class="setup_form-field" name="to">
+                  </label>
+                  <label class="setup_form-item"> 
+                        <span class="setup_form-label">Precision:</span>
+                        <input type="text" class="setup_form-field" name="precision">
+                  </label>
+            </div>
+            <div class="setup_form-row">
+               <button class="setup_form-calculate">Calculate</button>
+            </div>
+         </form>
    </div>
 
 </body>
