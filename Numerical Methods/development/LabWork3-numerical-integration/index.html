@@ -24,28 +24,28 @@
          <div class="setup_form-row">
             <label class="setup_form-item">
                <div class="setup_form-label">Function:</div>
-               <input type="text" class="setup_form-field setup_form-function_field" name="function">
+               <input type="text" class="setup_form-field setup_form-func_field" name="function" required>
             </label>
          </div>
          <div class="setup_form-row clearfix">
             <label class="setup_form-item setup_form-from_item">
                <div class="setup_form-label">From:</div>
-               <input type="number" class="setup_form-field" name="from">
+               <input type="number" class="setup_form-field" name="from" required>
             </label>
             <label class="setup_form-item setup_form-to_item">
                <div class="setup_form-label">To:</div>
-               <input type="number" class="setup_form-field" name="to">
+               <input type="number" class="setup_form-field" name="to" required>
             </label>
             <label class="setup_form-item setup_form-precision_item">
                <div class="setup_form-label">Precision:</div>
-               <input type="number" class="setup_form-field" name="precision">
+               <input type="number" class="setup_form-field" name="precision" step="0.00000000000001" required>
             </label>
          </div>   
          <div class="setup_form-row">
             <label class="setup_form-item">
                <span class="setup_form-label setup_form-method_label">Method:</span>
-               <select name="method">
-                  <option value="simpson">Simpson's Method</option>
+               <select name="method" required>
+                  <option value="simpson" selected>Simpson's Method</option>
                   <option value="trapezoidal">Trapezoidal</option>
                   <option value="middle-rectangular">Middle Rectangular</option>
                   <option value="right-rectangular">Right Rectangular</option>
