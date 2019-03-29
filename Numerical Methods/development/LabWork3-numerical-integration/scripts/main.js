@@ -1,5 +1,21 @@
 ;(function(){
 
-   console.log('Lab Work 3');
+   var els = {
+      form: document.querySelector(".setup_form"),
+   }
+
+   initEvents();
+
+   function calculate() { 
+      
+   }
+
+   function initEvents() { 
+      els.form.addEventListener('submit', (event) => {
+         event.preventDefault();
+
+         calculate();         
+      });
+   }
 
 }());
