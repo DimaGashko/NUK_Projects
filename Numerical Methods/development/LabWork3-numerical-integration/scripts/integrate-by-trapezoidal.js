@@ -1,9 +1,9 @@
 ; (function () {
    
    function integrateByTrapezoidal(func, from, to, precision) {
-      
+
    }
 
-   window.integrateBySimpson = integrateBySimpson;
+   window.integrateByTrapezoidal = integrateByTrapezoidal;
 
-});
+}());

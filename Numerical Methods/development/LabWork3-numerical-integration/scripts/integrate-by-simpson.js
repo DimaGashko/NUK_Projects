@@ -6,4 +6,4 @@
 
    window.integrateBySimpson = integrateBySimpson;
 
-});
+}());
