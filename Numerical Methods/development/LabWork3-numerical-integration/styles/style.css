@@ -54,10 +54,6 @@ select:focus {
    margin-bottom: 25px;
 }
 
-.page-group:last-child {
-   margin-bottom: 0;
-}
-
 /* Form */
 .setup_form {
    max-width: 500px;

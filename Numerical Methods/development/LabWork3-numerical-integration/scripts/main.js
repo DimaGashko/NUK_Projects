@@ -15,36 +15,30 @@
       const to = parseFloat(els.form.to.value);
       const method = els.form.method.value;
 
-      let resGenerator;
+      let res;
       
       try {
-         resGenerator = integrate(func, from, to, method, precision);
+         res = integrate(func, from, to, method, precision);
 
       } catch (err) { 
          if (!(err instanceof SyntaxError)) return;
          printCalcError();
          throw err;
       }
-      
-      setTimeout(function func() { 
-         const res = resGenerator.next();
-         if (res.done) return;
-         
-         printResults(res.value, precision);
-         setTimeout(func, 100);         
-      }, 100);
 
-      
+      printResults(res, precision);
    }
 
    /**
     * @param {{n: number, val: number}[]} res 
     */
    function printResults(res, precision) { 
+      console.log(res);
+      
       const digits = Math.abs(Math.floor(Math.log10(precision)));
       
       const strRes = res.reverse()
-         .map((item) => `I = ${item.val.toFixed(digits)} | n = ${item.n}`)
+         .map((item) => `I = ${item.val.toFixed(digits)}  n = ${item.n}`)
          .join('<br>');
       
       els.results.innerHTML = strRes;
