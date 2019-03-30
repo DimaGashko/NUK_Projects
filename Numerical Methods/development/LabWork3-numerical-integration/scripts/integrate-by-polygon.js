@@ -2,13 +2,11 @@
    
    /**
     * Интегрирует функцию f на интервале [a, b]
-    * @param {function} f интегрируемая функция
+    * @param {(x: number) => number} f интегрируемая функция
     * @param {number} a нижная граница интегрирования 
     * @param {number} b верхняя граница интегрирования
     * @param {number} n количество шагов
-    * @param {string} method метод интегрирования, возможные значения: 
-    * 'left-rectangular' | 'middle-rectangular' | 
-    * 'right-rectangular' | 'trapezoidal'
+    * @param {'left-rect'|'middle-rect'|'right-rect'|'trapezoidal'} method метод интегрирования
     */
    function integrateByPolygonMethods(f, a, b, n, method) {
       if (a > b) [a, b] = [b, a];
@@ -30,7 +28,7 @@
 
    /**
     * Вычисляет общую часть интеграла функции f
-    * @param {function} f интегрируемая функция
+    * @param {(x: number) => number} f интегрируемая функция
     * @param {number} a нижная граница интегрирования
     * @param {number} h шаг интегрирования
     * @param {number} s начальное значение результата
