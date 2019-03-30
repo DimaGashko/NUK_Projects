@@ -26,3 +26,52 @@
    window.integrateByRectangular = integrateByRectangular;
 
 }());
+
+function integrateLeftRectangular(func, from, to, n) { 
+   const h = Math.abs((to - from) / n);
+   let s = 0;
+
+   for (let i = 0; i < n; i++) {
+      s += func(from + h * i);
+   }
+
+   s *= h;
+   return s;
+}
+
+function integrateRightRectangular(func, from, to, n) { 
+   const h = Math.abs((to - from) / n);
+   let s = 0;
+
+   for (let i = 1; i <= n; i++) {
+      s += func(from + h * i);
+   }
+
+   s *= h;
+   return s;
+}
+
+function integrateMiddleRectangular(func, from, to, n) { 
+   const h = Math.abs((to - from) / n);
+   const offset = h / 2;
+   let s = 0;
+
+   for (let i = 0; i < n; i++) {
+      s += func(from + h * i + offset);
+   }
+
+   s *= h;
+   return s;
+}
+
+function integrateTrap(func, from, to, n) { 
+   const h = Math.abs((to - from) / n);
+   let s = 0;
+
+   for (let i = 0; i < n; i++) {
+      s += (func(from + h * i) + func(from + h * i + h)) / 2;
+   }
+
+   s *= h;
+   return s;
+}
