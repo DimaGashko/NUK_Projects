@@ -7,7 +7,8 @@
     * @param {number} b верхняя граница интегрирования
     * @param {number} n количество шагов
     * @param {string} method метод интегрирования, возможные значения: 
-    * 'left-rectangular' | 'middle-rectangular' | 'right-rectangular' | 'trapezoidal'
+    * 'left-rectangular' | 'middle-rectangular' | 
+    * 'right-rectangular' | 'trapezoidal'
     */
    function integrateByPolygonMethods(f, a, b, n, method) {
       if (a > b) [a, b] = [b, a];

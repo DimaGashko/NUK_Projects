@@ -51,7 +51,7 @@ select:focus {
    padding: 20px;
    background: #303030;
    border-radius: 15px;
-   margin-bottom: 25px
+   margin-bottom: 25px;
 }
 
 .page-group:last-child {
