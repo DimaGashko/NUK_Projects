@@ -29,7 +29,7 @@
    function getFunction() { 
       return (x) => { 
          const strFunc = form.func.value.replace(/x/gi, '' + x);
-         return new MathProcessor().parse(strFunc);
+         return parseEquation(strFunc);
       };
    }
 

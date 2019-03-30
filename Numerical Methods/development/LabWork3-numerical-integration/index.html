@@ -9,7 +9,7 @@
    <link rel="stylesheet" href="styles/normalize.css">
    <link rel="stylesheet" href="styles/style.css">
 
-   <script defer src="scripts/math-processor.js"></script>
+   <script defer src="scripts/parse-equation.js"></script>
    <script defer src="scripts/integrate-by-simpson.js"></script>
    <script defer src="scripts/integrate-by-polygon.js"></script>
    <script defer src="scripts/integrate.js"></script>
@@ -28,21 +28,22 @@
          <div class="setup_form-row">
             <label class="setup_form-item">
                <div class="setup_form-label">Function:</div>
-               <input type="text" class="setup_form-field setup_form-func_field" name="func" required>
+               <input type="text" class="setup_form-field setup_form-func_field" name="func" required 
+                  value="sin(x^2-1)/sqrt(x)" placeholder="For example: 2*x+sqrt(5^2)">
             </label>
          </div>
          <div class="setup_form-row clearfix">
             <label class="setup_form-item setup_form-from_item">
                <div class="setup_form-label">From:</div>
-               <input type="number" class="setup_form-field" name="from" required>
+               <input type="number" class="setup_form-field" name="from" step="0.01" required value="0.1">
             </label>
             <label class="setup_form-item setup_form-to_item">
                <div class="setup_form-label">To:</div>
-               <input type="number" class="setup_form-field" name="to" required>
+               <input type="number" class="setup_form-field" name="to" step="0.01"  required value="3.0">
             </label>
             <label class="setup_form-item setup_form-precision_item">
                <div class="setup_form-label">Precision:</div>
-               <input type="number" class="setup_form-field" name="precision" step="0.0000000001" required>
+               <input type="number" class="setup_form-field" name="precision" step="0.0000000001" required value="0.00001">
             </label>
          </div>   
          <div class="setup_form-row">
