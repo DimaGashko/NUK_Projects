@@ -12,17 +12,17 @@
       if (a > b) [a, b] = [b, a];
       const h = (b - a) / n;
 
-      if (method === 'left-rectangular') {
-         return getSum(func, a, n, h, f(a), 0);
+      if (method === 'left-rect') {
+         return getSum(f, a, n, h, f(a), 0);
 
-      } else if (method === 'middle-rectangular') {
-         return getSum(func, a, n, h, f(a + h / 2), h / 2);
+      } else if (method === 'middle-rect') {
+         return getSum(f, a, n, h, f(a + h / 2), h / 2);
      
-      } else if (method === 'right-rectangular') {
-         return getSum(func, a, n, h, f(b), 0);
+      } else if (method === 'right-rect') {
+         return getSum(f, a, n, h, f(b), 0);
      
       } else if (method === 'trapezoidal') {
-         return getSum(func, a, n, h, (f(a) + f(b)) / 2, 0);
+         return getSum(f, a, n, h, (f(a) + f(b)) / 2, 0);
       
       } else {
          throw SyntaxError(`Wrong integration method (${method})`);
