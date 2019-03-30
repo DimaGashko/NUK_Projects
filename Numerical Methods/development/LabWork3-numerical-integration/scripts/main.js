@@ -6,6 +6,7 @@
 
    function calculate() { 
       const func = getFunction();
+      window.func = func;
       const precision = parseFloat(form.precision.value);
       const from = parseFloat(form.from.value);
       const to = parseFloat(form.to.value);
@@ -26,10 +27,10 @@
    }
 
    function getFunction() { 
-      const srtFunc = form.func.value;
-      const func = new Function('x', `return ${srtFunc}`);
-
-      return func;
+      return (x) => { 
+         const strFunc = form.func.value.replace(/x/gi, '' + x);
+         return new MathProcessor().parse(strFunc);
+      };
    }
 
    function printCalcError() {
