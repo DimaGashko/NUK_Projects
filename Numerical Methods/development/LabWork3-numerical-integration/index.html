@@ -21,55 +21,68 @@
 
 <body>
    <div class="wrapper">
-      <h1>Numerical Integration</h1>
 
-      <form class="setup_form page-group">
-         <h2 class="setup_from-title">Set up</h2>
+      <header class="header">
+         <div class="container">
+            <h1 class="header-title">Numerical Integration</h1>
+         </div>
+      </header>
 
-         <div class="setup_form-row">
-            <label class="setup_form-item">
-               <div class="setup_form-label">Function:</div>
-               <input type="text" class="setup_form-field setup_form-func_field" name="func" required 
-                  value="sin(x^2-1)/sqrt(x)" placeholder="For example: 2*x+sqrt(5^2)" spellcheck="false">
-            </label>
-         </div>
-         <div class="setup_form-row clearfix">
-            <label class="setup_form-item setup_form-from_item">
-               <div class="setup_form-label">From:</div>
-               <input type="number" class="setup_form-field" name="from" step="0.01" required value="0.1">
-            </label>
-            <label class="setup_form-item setup_form-to_item">
-               <div class="setup_form-label">To:</div>
-               <input type="number" class="setup_form-field" name="to" step="0.01"  required value="3.0">
-            </label>
-            <label class="setup_form-item setup_form-precision_item">
-               <div class="setup_form-label">Precision:</div>
-               <input type="number" class="setup_form-field" name="precision" step="0.0000000001" required value="0.0001">
-            </label>
-         </div>   
-         <div class="setup_form-row">
-            <label class="setup_form-item">
-               <span class="setup_form-label setup_form-method_label">Method:</span>
-               <select name="method" required>
-                  <option value="simpson" selected>Simpson's Method</option>
-                  <option value="trapezoidal">Trapezoidal</option>
-                  <option value="middle-rect">Middle Rectangular</option>
-                  <option value="right-rect">Right Rectangular</option>
-                  <option value="left-rect">Left Rectangular</option>
-               </select>
-            </label>
-         </div>
-         <div class="setup_form-row setup_form-calc_row">
-            <button class="setup_form-calculate">Calculate</button>
-         </div>
-      </form>
+      <main class="main">
+         <div class="container">
+            <div class="integration-app">
+               <form class="setup_form page-group">
+                  <h2 class="setup_from-title">Set up</h2>
 
-      <div class="results page-group">
-         <h2 class="setup_from-title">Results</h2>
-         <div class="results-text">
-            No data
+                  <div class="setup_form-row">
+                     <label class="setup_form-item">
+                        <div class="setup_form-label">Function:</div>
+                        <input type="text" class="setup_form-field setup_form-func_field" name="func" required
+                           value="sin(x^2-1)/sqrt(x)" placeholder="For example: 2*x+sqrt(5^2)" spellcheck="false">
+                     </label>
+                  </div>
+                  <div class="setup_form-row clearfix">
+                     <label class="setup_form-item setup_form-from_item">
+                        <div class="setup_form-label">From:</div>
+                        <input type="number" class="setup_form-field" name="from" step="0.01" required value="0.1">
+                     </label>
+                     <label class="setup_form-item setup_form-to_item">
+                        <div class="setup_form-label">To:</div>
+                        <input type="number" class="setup_form-field" name="to" step="0.01" required value="3.0">
+                     </label>
+                     <label class="setup_form-item setup_form-precision_item">
+                        <div class="setup_form-label">Precision:</div>
+                        <input type="number" class="setup_form-field" name="precision" step="0.0000000001" required
+                           value="0.0001">
+                     </label>
+                  </div>
+                  <div class="setup_form-row">
+                     <label class="setup_form-item">
+                        <span class="setup_form-label setup_form-method_label">Method:</span>
+                        <select name="method" required>
+                           <option value="simpson" selected>Simpson's Method</option>
+                           <option value="trapezoidal">Trapezoidal</option>
+                           <option value="middle-rect">Middle Rectangular</option>
+                           <option value="right-rect">Right Rectangular</option>
+                           <option value="left-rect">Left Rectangular</option>
+                        </select>
+                     </label>
+                  </div>
+                  <div class="setup_form-row setup_form-calc_row">
+                     <button class="setup_form-calculate">Calculate</button>
+                  </div>
+               </form>
+
+               <div class="results page-group">
+                  <h2 class="setup_from-title">Results</h2>
+                  <div class="results-text">
+                     No data
+                  </div>
+               </div>
+            </div>
          </div>
-      </div>
+
+      </main>
 
    </div>
 

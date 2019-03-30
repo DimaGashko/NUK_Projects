@@ -4,12 +4,6 @@ html, body {
    color: #fff;
 }
 
-.wrapper {
-   max-width: 960px;
-   margin: 0 auto;
-   padding: 0 50px;
-}
-
 input[type="text"],
 input[type="number"],
 button,
@@ -54,9 +48,27 @@ select:focus {
    margin-bottom: 25px;
 }
 
+.container {
+   max-width: 960px;
+   margin: 0 auto;
+   padding: 0 50px;
+}
+
+.header {
+   padding: 10px 0;
+   background: #303030;
+   margin-bottom: 25px
+}
+
+.integration-app .page-group {
+   margin-left: auto;
+   margin-right: auto;
+}
+
 /* Form */
 .setup_form {
    max-width: 500px;
+   min-width: 240px;
    padding: 20px;
    background: #303030;
    border-radius: 15px;
@@ -119,7 +131,11 @@ select:focus {
 }
 
 @media (max-width: 500px) { 
-   .wrapper {
+   .header-title {
+      text-align: center;
+   }
+
+   .container {
       padding: 0 10px;
    }
 }
