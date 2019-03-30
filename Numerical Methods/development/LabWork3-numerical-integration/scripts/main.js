@@ -6,7 +6,6 @@
 
    function calculate() { 
       const func = getFunction();
-      window.func = func;
       const precision = parseFloat(form.precision.value);
       const from = parseFloat(form.from.value);
       const to = parseFloat(form.to.value);
@@ -14,27 +13,13 @@
 
       let res;
 
-      switch (method) { 
-         case 'simpson':
-            res = integrateBySimpson(func, from, to, precision);
-            break;
-         case 'trapezoidal':
-            res = integrateByTrapezoidal(func, from, to, precision);
-            break;
-         case 'middle-rectangular':
-         case 'right-rectangular':
-         case 'left-rectangular':            
-            res = integrateByRectangular(func, from, to, precision, method);
-            break;
-         default:
-            printCalcError();
-      }
+      try {
+         res = integrate(func, from, to, method, precision);
 
-      if (!res) {
-         console.log(res);
-         
+      } catch (err) { 
+         if (!(err instanceof SyntaxError)) return;
          printCalcError();
-         return;
+         throw err;
       }
 
       console.log(res);
