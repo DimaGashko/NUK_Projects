@@ -1,26 +1,30 @@
 ; (function () {
    
-   function integrateByRectangular(func, from, to, precision, method) {
-      const n = 10000;
-      const h = (to - from) / n;
+   function integrateByRectangular(f, a, b, n, method) {
+      if (a > b) [a, b] = [b, a];
+      const h = (b - a) / n;
 
-      if (method === "left-rectangular") {
-         return getSum(func, from, from, h, func(a)) * h;
+      if (method === 'left-rectangular') {
+         return getSum(func, a, n, h, f(a), 0);
 
-      } else if (method === "right-rectangular") {
-         return getSum(func, from, n, h, func(b)) * h;
+      } else if (method === 'middle-rectangular') {
+         return getSum(func, a, n, h, f(a + h / 2), h / 2);
      
-      } else if (method === "middle-rectangular") {
-         return getSum(func, from, n, h, (func(from), func(to)) / 2) * h;
+      } else if (method === 'right-rectangular') {
+         return getSum(func, a, n, h, f(b), 0);
+     
+      } else if (method === 'trapezoidal') {
+         return getSum(func, a, n, h, (f(a) + f(b)) / 2, 0);
       }
    }
 
-   function getSum(func, a, n, h, s) { 
-      for (let i = 1; i <= n - 1; i++) {
-         s += func(a + i * h);
+   function getSum(f, a, n, h, s, offset) {
+
+      for (let i = 1; i < n; i++) {
+         s += f(a + i * h + offset);
       }
 
-      return s;
+      return s * h;
    }
 
    window.integrateByRectangular = integrateByRectangular;
