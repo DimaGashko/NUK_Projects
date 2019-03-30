@@ -18,7 +18,7 @@
          k = -k;
       }
 
-      return (h / 3) * s;
+      return Math.abs((h / 3) * s);
    }
 
    window.integrateBySimpson = integrateBySimpson;

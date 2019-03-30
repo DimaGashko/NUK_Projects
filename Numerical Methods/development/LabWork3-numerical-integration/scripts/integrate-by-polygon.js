@@ -43,7 +43,7 @@
          s += f(a + i * h + offset);
       }
 
-      return s * h;
+      return Math.abs(s * h);
    }
 
    window.integrateByPolygon = integrateByPolygon;
