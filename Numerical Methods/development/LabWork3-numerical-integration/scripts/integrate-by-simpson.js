@@ -1,6 +1,6 @@
 ; (function () {
    
-   function integrateBySimpson(func, from, to, precision) {
+   function integrateBySimpson(f, a, b, n) {
 
    }
 
