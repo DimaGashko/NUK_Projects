@@ -8,7 +8,7 @@
     * @param {number} n количество шагов
     * @param {'left-rect'|'middle-rect'|'right-rect'|'trapezoidal'} method метод интегрирования
     */
-   function integrateByPolygonMethods(f, a, b, n, method) {
+   function integrateByPolygon(f, a, b, n, method) {
       if (a > b) [a, b] = [b, a];
       const h = (b - a) / n;
 
@@ -23,6 +23,9 @@
      
       } else if (method === 'trapezoidal') {
          return getSum(func, a, n, h, (f(a) + f(b)) / 2, 0);
+      
+      } else {
+         throw SyntaxError(`Wrong integration method (${method})`);
       }
    }
 
@@ -43,6 +46,6 @@
       return s * h;
    }
 
-   window.integrateByPolygonMethods = integrateByPolygonMethods;
+   window.integrateByPolygon = integrateByPolygon;
 
 }());
