@@ -12,10 +12,25 @@
     * точности - наибольшая точно в последнем элементе)
     */
    function integrate(f, a, b, method, precision = 0.00001) { 
+      const epsilon = precision * (method === 'simpson') ? 15 : 3;
       const res = [];
 
       let n = 2;
       let prev = getNextValue(f, a, b, n, method);
+      res.push({ n, prev });
+      
+      while (true) {
+         n *= 2;
+
+         const next = getNextValue(f, a, b, n, method);
+         res.push({ n, next });      
+         
+         if (Math.abs(next - prev) <= epsilon) {
+            break
+         }
+
+         prev = next;
+      }
 
       return res;
    }
