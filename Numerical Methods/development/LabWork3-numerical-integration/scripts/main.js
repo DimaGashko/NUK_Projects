@@ -15,18 +15,26 @@
       const to = parseFloat(els.form.to.value);
       const method = els.form.method.value;
 
-      let res;
-
+      let resGenerator;
+      
       try {
-         res = integrate(func, from, to, method, precision);
+         resGenerator = integrate(func, from, to, method, precision);
 
       } catch (err) { 
          if (!(err instanceof SyntaxError)) return;
          printCalcError();
          throw err;
       }
+      
+      setTimeout(function func() { 
+         const res = resGenerator.next();
+         if (res.done) return;
+         
+         printResults(res.value, precision);
+         setTimeout(func, 100);         
+      }, 100);
 
-      printResults(res, precision);
+      
    }
 
    /**
@@ -34,21 +42,19 @@
     */
    function printResults(res, precision) { 
       const digits = Math.abs(Math.floor(Math.log10(precision)));
-      console.log(digits);
       
       const strRes = res.reverse()
-         .map((item) => `I = ${item.val.toFixed(digits)} (n = ${item.n})`)
+         .map((item) => `I = ${item.val.toFixed(digits)} | n = ${item.n}`)
          .join('<br>');
       
       els.results.innerHTML = strRes;
    }
 
    function getFunction() {
-      let strFunc = els.form.func.value;
+      const strFunc = els.form.func.value;
 
       return (x) => { 
-         strFunc = strFunc.replace(/x/gi, '' + x);
-         return parseEquation(strFunc);
+         return parseEquation(strFunc.replace(/x/gi, '' + x));
       };
    }
 
