@@ -8,7 +8,7 @@ const pagesConfig = {
         template: './src/pages/approximate/approximate.html',
         htmlPath: 'approximate/index.html',
     }, {
-        alias: 'approximate',
+        alias: 'differential',
         entry: './src/pages/differential/differential.js',
         template: './src/pages/differential/differential.html',
         htmlPath: 'differential/index.html',

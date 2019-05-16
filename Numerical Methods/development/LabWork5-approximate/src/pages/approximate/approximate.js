@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 import './approximate.sass';
 
 import template from './approximate.template.html';
-import Model from './model.js.js';
+import Model from './model.js';
 
 const model = new Model();
 const approximate = model.approximate();
