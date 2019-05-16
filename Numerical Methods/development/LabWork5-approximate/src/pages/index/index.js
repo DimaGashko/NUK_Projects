@@ -3,21 +3,24 @@ import Chart from 'chart.js';
 import './index.sass';
 
 import template from './index.template.html';
-import data from './data.js';
+import Model from './model.js';
+
+const model = new Model();
+const approximateYs = model.approximate();
 
 const $contentSlot = document.querySelector('.content-slot');
-$contentSlot.innerHTML = tmpl(template)(data);
+
+$contentSlot.innerHTML = tmpl(template)(model);
 
 const $canvas = document.querySelector('.canvas');
-
 var ctx = $canvas.getContext('2d');
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: approximateYs,
         datasets: [{
             label: '# of Votes',
-            data: [12, 19, 3, 5, 2, 3],
+            data: approximateYs,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
