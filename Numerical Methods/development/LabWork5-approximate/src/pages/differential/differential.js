@@ -1,8 +1,8 @@
 import tmpl from 'lodash/template';
 import Chart from 'chart.js';
-import './index.sass';
+import './differential.sass';
 
-import template from './index.template.html';
+import template from './differential.template.html';
 import Model from './model.js';
 
 const model = new Model();

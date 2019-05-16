@@ -3,10 +3,15 @@ const playgroundIPages = true;
 const pagesConfig = {
 
     pages: [{
-        alias: 'index',
-        entry: './src/pages/index/index.js',
-        template: './src/pages/index/index.html',
-        htmlPath: 'index.html',
+        alias: 'approximate',
+        entry: './src/pages/approximate/approximate.js',
+        template: './src/pages/approximate/approximate.html',
+        htmlPath: 'approximate/index.html',
+    }, {
+        alias: 'approximate',
+        entry: './src/pages/differential/differential.js',
+        template: './src/pages/differential/differential.html',
+        htmlPath: 'differential/index.html',
     }],
 
 }

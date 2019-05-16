@@ -1,0 +1,27 @@
+<div class="container">
+    <h1 class="title">The Approximate</h1>
+
+    <div class="graph">
+        <canvas class="canvas" width="200" height="200" aria-label="graph of approximate" role="img"></canvas>
+    </div>
+
+    <div class="info">
+        <table class="input-data-table">
+            <caption>Input Data</caption>
+            <tr>
+                <th>X</th>
+                <th>Y(X)</th>
+            </tr>
+            <% data.xs.forEach((x, i) => { %>
+            <tr>
+                <td><%= x %></td>
+                <td><%= data.ys[i] %></td>
+            </tr>
+            <% }); %>
+        </table>
+
+        <p>
+            The Equation: <%= data.equation %>
+        </p>
+    </div>
+</div>
