@@ -1,0 +1,178 @@
+@import '~normalize.sass/normalize'
+@import './_vars.sass'
+    
+html
+    font-size: 16px
+    box-sizing: border-box
+
+    @media screen and (min-width: 1600px)
+        font-size: 32px
+
+body
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"  
+    color: var(--main-text-color)
+    font-size: 1rem
+    min-height: 100vh
+
+*, *:before, *:after 
+    box-sizing: inherit
+
+*:focus
+        outline-color: var(--brand-color-1, #14829b)
+        
+::selection
+    background: var(--brand-color-1, #14829b)
+    color: #fff
+        
+a
+    color: var(--brand-color-1)
+    text-decoration: none
+    padding: 0.2em 0
+    cursor: pointer
+
+    &:hover
+        text-decoration: underline
+
+input[type="checkbox"]
+    vertical-align: middle
+    width: 1em
+    height: 1em
+
+// Select
+.select
+    position: relative
+    display: inline-block
+
+.select__select
+    position: relative
+    padding: 0.8em
+    padding-right: 1.6em
+    margin: 0
+    border: 1px solid rgba(0,0,0,.1)
+    border-radius: 0.3em
+    font-size: 0.7rem
+    background: #fff
+    color: var(--main-text-color)
+    appearance: none
+    z-index: 1
+
+    &:disabled
+        background: rgba(100,100,100,0.2)
+
+        & + .select__arrow
+            border-color: #333
+
+    &:focus
+        & + .select__arrow:before
+            transform: rotate(-135deg)
+
+.select__arrow
+    position: absolute
+    pointer-events: none
+    transform: translateY(-50%)
+    top: 50%
+    right: 0.5em
+    width: 0.4em
+    height: 0.4em
+    z-index: 2
+
+    &:before
+        content: ''
+        position: absolute
+        display: block
+        left: 0
+        right: 0
+        top: 0
+        bottom: 0
+        color: transparent 
+        border: 0.15em solid var(--brand-color-1)
+        border-left-color: none
+        border-top-color: none
+        transform: rotate(45deg)
+        transition: transform .3s
+
+// Extended
+%visually-hidden 
+    overflow: hidden
+    clip: rect(0 0 0 0)
+    position: absolute
+    height: 1px
+    width: 1px
+    padding: 0
+    border: 0
+    margin: -1px
+
+
+// Modal
+
+.modal
+    --exit-size: 1em
+    --exit-width: 0.1em
+
+.modal 
+    //display: none!important
+    position: fixed
+    display: flex
+    flex-direction: column
+    top: 50%
+    left: 50%
+    border-radius: 0.5em
+    transform: translate(-50%, -50%)
+    background: #fff
+    z-index: 1001
+    box-shadow: 0px 0px 10px rgba(0,0,0,.2)
+    max-width: 100vw
+    max-height: 100vh
+    padding: 3vw
+    padding-top: calc(var(--exit-size, 1em) * 2)
+    width: 90%
+
+.modal__content
+    overflow: auto
+
+.modal__exit
+    position: absolute
+    top: 0.5em
+    right: 0.5em
+    width: var(--exit-size)
+    height: var(--exit-size)
+    border: none
+    cursor: pointer
+    background: transparent
+    border-radius: 0.2em
+    transition: background-color .3s
+
+    &:hover
+        background-color: var(--main-text-color)
+
+        &:before, &:after
+            background-color: #fff
+
+    &:before, &:after
+        content: ''
+        position: absolute
+        left: 50%
+        top: 0
+        margin-left: calc(-0.5 * var(--exit-width))
+        width: var(--exit-width)
+        height: 100%
+        background-color: var(--main-text-color)
+        transition: background-color .3s
+
+    &:before
+        transform: rotate(45deg)
+        
+    &:after
+        transform: rotate(-45deg)
+
+
+.modal__overlay
+    display: none
+    position: fixed
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+    top: 0
+    z-index: 1000
+    background-color: rgba(0,0,0,.2)

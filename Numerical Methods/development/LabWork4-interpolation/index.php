@@ -34,6 +34,13 @@ foreach ($tabulateXs as $x) {
     $lagrangeYs[] = $lagrangeInterpolation->calc($xs, $ys, $x);
 }
 
+$accuracies = [];
+foreach ($lagrangeYs as $i => $lagrangeY) {
+    $accuracies[] = abs($lagrangeY - $tabulateYs[$i]);
+}
+
+$accuracy = max(...$accuracies);
+
 $file = fopen('interpolation.csv', 'w');
 fputcsv($file, ['x', 'F(x)', 'L(x)'], ';');
 
@@ -48,6 +55,7 @@ foreach ($tabulateXs as $i => $x) {
 }
 
 echo "Done!" . PHP_EOL;
+echo "Accuracy: $accuracy" . PHP_EOL;
 
 function func($x)
 {
