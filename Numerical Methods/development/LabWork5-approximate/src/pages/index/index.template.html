@@ -1,0 +1,21 @@
+<div class="container">
+    <h1 class="title">The Approximate Lab Work</h1>
+
+    <div class="graph"></div>
+
+    <div class="info">
+        <table class="input-data-table">
+            <caption>Input Data</caption>
+            <tr>
+                <th>X</th>
+                <th>Y(X)</th>
+            </tr>
+            <% xs.forEach((x, i) => { %>
+            <tr>
+                <td><%= x %></td>
+                <td><%= ys[i] %></td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+</div>
