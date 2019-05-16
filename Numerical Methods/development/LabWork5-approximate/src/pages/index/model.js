@@ -1,5 +1,4 @@
 
-
 export default class Model {
     data = {
         xs: [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -9,7 +8,9 @@ export default class Model {
     
     approximate() { 
         return this.data.xs.map((x) => { 
-            return (44.59316 / x) - 5.76363;
+            return {
+                x, y: (44.59316 / x) - 5.76363,
+            }
         });
     }
     
