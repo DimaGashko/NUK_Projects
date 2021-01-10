@@ -9,16 +9,45 @@ import (
 
 func main() {
 	random.SetSeed(6 * 100)
+	size := 10000
+	stdDev := 6.0
+	mean := 6.0
 
+	fmt.Println("- - - Linear Distribution Generator - - -")
 	//calcLcgPeriod()
-	testLcg()
+	testLcg(size)
+
+	fmt.Println("- - - Gaussian Distribution Generator - - -")
+	testGaussian(stdDev, mean, size)
 }
 
-func testLcg() {
-	sample := random.GenRandomSlice(10000)
+func testLcg(size int) {
+	sample := random.GenRandomSlice(size)
 	intervals := chi.MakeIntervals(sample)
 	absoluteFrequencies := chi.GetAbsoluteFrequencies(intervals)
 	critical, _ := chi.GetCritical(len(intervals)-1, 0.05)
+	actual := chi.CalculateChi2Distribution(absoluteFrequencies, len(sample))
+	ok := actual < critical
+
+	strOk := "PASSED"
+	if !ok {
+		strOk = "FAILED"
+	}
+
+	printFrequencies(absoluteFrequencies)
+	fmt.Printf("Chi-square distribution (actual): %.3f\n", actual)
+	fmt.Printf("Chi-square distribution (critical): %.3f\n", critical)
+	fmt.Printf("\n%s\n", strOk)
+}
+
+func testGaussian(stdDev, mean float64, size int) {
+	sample := random.GenNormallyRandomSlice(stdDev, mean, size)
+	fmt.Println(sample)
+
+	intervals := chi.MakeIntervals(sample)
+	absoluteFrequencies := chi.GetAbsoluteFrequencies(intervals)
+	critical, _ := chi.GetCritical(len(intervals)-3, 0.05)
+
 	actual := chi.CalculateChi2Distribution(absoluteFrequencies, len(sample))
 	ok := actual < critical
 
@@ -44,7 +73,7 @@ func printFrequencies(frequencies []float64) {
 }
 
 func calcLcgPeriod() int {
-	fmt.Println("Calculating LCG period:")
+	fmt.Println("Calculating the generator period:")
 
 	first := random.Lcg()
 	i := 1
