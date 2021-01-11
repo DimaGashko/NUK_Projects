@@ -1,0 +1,11 @@
+{
+  "name": "continuous-deterministic-models-modelling",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dmitry Gashko",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "throttle-debounce": "^3.0.1"
+  }
+}
