@@ -23,10 +23,10 @@ func main() {
 
 func testLcg(size int) {
 	sample := random.GenRandomSlice(size)
-	intervals := chi.MakeIntervals(sample)
-	absoluteFrequencies := chi.GetAbsoluteFrequencies(intervals)
-	critical, _ := chi.GetCritical(len(intervals)-1, 0.05)
-	actual := chi.CalculateChi2Distribution(absoluteFrequencies, len(sample))
+	intervals, _, _, _ := chi.MakeIntervals(sample)
+	frequencies := chi.GetAbsoluteFrequencies(intervals)
+	critical, _ := chi.GetChi2Critical(len(intervals)-1, 0.05)
+	actual := chi.CalcChi2Uni(frequencies, len(sample))
 	ok := actual < critical
 
 	strOk := "PASSED"
@@ -34,21 +34,20 @@ func testLcg(size int) {
 		strOk = "FAILED"
 	}
 
-	printFrequencies(absoluteFrequencies)
+	printFrequencies(frequencies)
 	fmt.Printf("Chi-square distribution (actual): %.3f\n", actual)
 	fmt.Printf("Chi-square distribution (critical): %.3f\n", critical)
-	fmt.Printf("\n%s\n", strOk)
+	fmt.Printf("\n%s\n\n", strOk)
 }
 
 func testGaussian(stdDev, mean float64, size int) {
 	sample := random.GenNormallyRandomSlice(stdDev, mean, size)
-	fmt.Println(sample)
+	intervals, intervalLen, min, _ := chi.MakeIntervals(sample)
+	borders := chi.GetIntervalBorders(min, intervalLen, len(intervals))
+	frequencies := chi.GetAbsoluteFrequencies(intervals)
+	critical, _ := chi.GetChi2Critical(len(intervals)-3, 0.05)
 
-	intervals := chi.MakeIntervals(sample)
-	absoluteFrequencies := chi.GetAbsoluteFrequencies(intervals)
-	critical, _ := chi.GetCritical(len(intervals)-3, 0.05)
-
-	actual := chi.CalculateChi2Distribution(absoluteFrequencies, len(sample))
+	actual := chi.CalcChi2Gaussian(frequencies, borders, len(sample), intervalLen, stdDev, mean)
 	ok := actual < critical
 
 	strOk := "PASSED"
@@ -56,10 +55,10 @@ func testGaussian(stdDev, mean float64, size int) {
 		strOk = "FAILED"
 	}
 
-	printFrequencies(absoluteFrequencies)
+	printFrequencies(frequencies)
 	fmt.Printf("Chi-square distribution (actual): %.3f\n", actual)
 	fmt.Printf("Chi-square distribution (critical): %.3f\n", critical)
-	fmt.Printf("\n%s\n", strOk)
+	fmt.Printf("\n%s\n\n", strOk)
 }
 
 func printFrequencies(frequencies []float64) {

@@ -28,7 +28,7 @@ func Gaussian(stdDev, mean float64) float64 {
 		return Gaussian(mean, stdDev)
 	}
 
-	c := math.Sqrt(-2 * math.Log10(s) / s)
+	c := math.Sqrt(-2 * math.Log(s) / s)
 	z0 := x * c
 	z1 := y * c
 
