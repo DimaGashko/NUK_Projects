@@ -20,8 +20,7 @@ function initEvents() {
 }
 
 function update() {
-   const solution = findSolution(getArgs())
-   console.log(solution);
+   const solution = findSolution(getArgs());
 }
 
 function getArgs() {
@@ -34,5 +33,7 @@ function getArgs() {
       c3: +args.c3.value,
       w: +args.w.value,
       epsilon: +args.epsilon.value,
+      from: +args.from.value,
+      to: +args.to.value,
    }
 }
