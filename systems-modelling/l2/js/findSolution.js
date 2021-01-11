@@ -26,17 +26,19 @@ export default function findSolution({ b1, b2, sigma, y0, c1, c3, w, epsilon, fr
       for (let i = 1; i <= n; i++) {
          sum += Math.pow(y1[i] - y1[i - 1], 2);
       }
+
       const max = Math.max(...y1);
       const rule = Math.sqrt(sum / n / max);
 
       res.push({ delta, rule })
 
       if (rule >= epsilon || Number.isNaN(rule)) {
-          delta /= 2;
+         if (!Number.isNaN(rule)) console.log("Rule:", rule);
+         delta /= 2;
          continue;
       }
          
-      console.log(rule);
+      console.log("Rule:", rule);
       return { x, y1, y2 };
    }
 }
