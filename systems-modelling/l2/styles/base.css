@@ -1,0 +1,65 @@
+:root {
+   --page-width: 1440px;
+   --page-padding: 40px;
+
+   @media screen and (max-width: 480px) {
+      --page-padding: 16px;
+   }
+}
+
+*,
+:after,
+:before {
+   box-sizing: border-box;
+}
+
+html {
+   font-size: 16px;
+}
+
+body {
+   min-height: 100vh;
+
+   margin: 0;
+   padding: 0;
+
+   font-size: 16px;
+
+   color: var(--text-color);
+   background: var(--bg-color);
+   font-family: system;
+
+   line-height: 1.5;
+}
+
+.container {
+   max-width: var(--page-width);
+   padding: 0 var(--page-padding);
+   margin: 0 auto;
+
+   box-sizing: content-box;
+}
+
+::selection {
+   background-color: var(--text-color);
+   color: #fff;
+}
+
+::-ms-clear {
+   display: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+}
+
+.form-control {
+   padding: 0.5em 0.5em;
+   border-radius: 2px;
+   font-size: inherit;
+   background-color: rgb(11, 12, 14);
+   color: rgb(199, 208, 217);
+   border: 1px solid rgb(44, 50, 53);
+}

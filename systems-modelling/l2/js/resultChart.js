@@ -7,11 +7,9 @@ export function makeResultChart($root) {
          datasets: [{
             label: 'Function value',
             borderColor: 'rgba(240,90,40,1)',
-            pointBackgroundColor: 'rgba(240,90,40,1)',
          }, {
-            label: 'Solution',
+            label: 'Equation value',
             borderColor: 'rgba(13,96,223,1)',
-            pointBackgroundColor: 'rgba(13,96,223,1)',
          }],
       },
       options: {
@@ -41,14 +39,11 @@ export function makeResultChart($root) {
          elements: {
             line: {
                tension: 0.15,
-               borderWidth: 1,
+               borderWidth: 1.5,
                backgroundColor: 'rgba(0,0,0,.05)',
             },
             point: {
-               radius: 1,
-               hoverRadius: 2,
-               borderWidth: 0,
-               hoverBorderWidth: 0,
+               radius: 0,
             },
          },
          tooltips: {

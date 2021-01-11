@@ -5,64 +5,69 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="/favicon.ico" rel="icon" type="image/x-icon" />
-   <title>Continuous Deterministic Models Modelling</title>
+   <title>Continuous Deterministic Model Modelling</title>
+
+   <link rel="stylesheet" href="/styles/base.css">
+   <link rel="stylesheet" href="/styles/index.css">
 
    <script type="module" src="/js/index.js"></script>
 </head>
 
-<body class="page page-js">
-   <h1>Continuous Deterministic Models Modelling</h1>
+<body>
+   <div class="page page-js container">
+      <h1 class="page--title">Continuous Deterministic Model Modelling</h1>
 
-   <form class="args args-js" action>
+      <form class="args args-js" action>
 
-      <ul class="args--list">
-         <li class="args--item">
-            <label class="args--label" for="b1">b1:</label>
-            <input class="args--input" id="b1" type="number" step="0.001" value="0.01">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="b2">b2:</label>
-            <input class="args--input" id="b2" type="number" step="0.001" value="1">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="sigma">σ:</label>
-            <input class="args--input" id="sigma" type="number" step="0.001" value="0.075">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="y0">y0:</label>
-            <input class="args--input" id="y0" type="number" step="0.001" value="0.168">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="c1">c1:</label>
-            <input class="args--input" id="c1" type="number" step="0.001" value="1">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="c3">c3:</label>
-            <input class="args--input" id="c3" type="number" step="0.001" value="-1">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="w">w:</label>
-            <input class="args--input" id="w" type="number" step="0.001" value="1">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="from">From:</label>
-            <input class="args--input" id="from" type="number" step="0.001" value="0">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="To">To:</label>
-            <input class="args--input" id="to" type="number" step="0.001" value="180">
-         </li>
-         <li class="args--item">
-            <label class="args--label" for="epsilon">ε:</label>
-            <input class="args--input" id="epsilon" type="number" step="0.001" value="0.05">
-         </li>
-      </ul>
+         <ul class="args--list">
+            <li class="args--item">
+               <label class="args--label" for="b1">b1:</label>
+               <input class="args--input form-control" id="b1" type="number" step="0.001" value="0.01">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="b2">b2:</label>
+               <input class="args--input form-control" id="b2" type="number" step="0.001" value="1">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="sigma">σ:</label>
+               <input class="args--input form-control" id="sigma" type="number" step="0.001" value="0.075">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="y0">y0:</label>
+               <input class="args--input form-control" id="y0" type="number" step="0.001" value="0.168">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="c1">c1:</label>
+               <input class="args--input form-control" id="c1" type="number" step="0.001" value="1">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="c3">c3:</label>
+               <input class="args--input form-control" id="c3" type="number" step="0.001" value="-1">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="w">w:</label>
+               <input class="args--input form-control" id="w" type="number" step="0.001" value="1">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="from">From:</label>
+               <input class="args--input form-control" id="from" type="number" step="0.001" value="0">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="To">To:</label>
+               <input class="args--input form-control" id="to" type="number" step="0.001" value="180">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="epsilon">ε:</label>
+               <input class="args--input form-control" id="epsilon" type="number" step="0.001" value="0.05">
+            </li>
+         </ul>
 
-      <button class="args--calc">Calculate</button>
-   </form>
+         <button class="args--calc" hidden>Calculate</button>
+      </form>
 
-   <div class="page--chart-container">
-      <canvas class="page--chart chart-js" aria-label="Result chart">
+      <div class="page--chart-container">
+         <canvas class="page--chart chart-js" aria-label="Result chart">
+      </div>
    </div>
 </body>
 

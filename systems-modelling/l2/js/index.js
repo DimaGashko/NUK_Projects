@@ -24,15 +24,20 @@ function initEvents() {
 }
 
 function update() {
-   const solution = findSolution(getArgs());
-   console.log(solution);
-   updateChart(solution);
+   try {
+      const solution = findSolution(getArgs());
+      console.log(solution);
+      updateChart(solution);
+   } catch (e) {
+      console.warn('Incorrect data');
+      console.error(e);
+   }
 }
 
 function updateChart({ x, y1, y2 }) {
-   chart.data.labels = x;
-   chart.data.datasets[0].data = y1;
-   chart.data.datasets[1].data = y2;
+   chart.data.labels = x.map(y => y.toFixed(4));
+   chart.data.datasets[0].data = y1.map(y => y.toFixed(4));
+   chart.data.datasets[1].data = y2.map(y => y.toFixed(4));
 
    chart.update();
 }
