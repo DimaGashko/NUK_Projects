@@ -14,7 +14,7 @@ func main() {
 	mean := 6.0
 
 	fmt.Println("- - - Linear Distribution Generator - - -")
-	//calcLcgPeriod()
+	calcLcgPeriod()
 	testLcg(size)
 
 	fmt.Println("- - - Gaussian Distribution Generator - - -")
@@ -74,10 +74,10 @@ func printFrequencies(frequencies []float64) {
 func calcLcgPeriod() int {
 	fmt.Println("Calculating the generator period:")
 
-	first := random.Lcg()
+	first := random.LcgAllBits()
 	i := 1
 
-	for ; random.Lcg() != first; i++ {
+	for ; random.LcgAllBits() != first; i++ {
 		if i%1e8 == 0 {
 			fmt.Print(".")
 		}

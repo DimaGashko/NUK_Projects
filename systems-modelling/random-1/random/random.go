@@ -3,6 +3,9 @@ package random
 import "math"
 
 const RAND_MAX = 32767
+const a = 1103515245
+const c = 12345
+const m = 2147483648
 
 var next int64 = 1
 
@@ -10,8 +13,13 @@ var gaussianHasCalculated = false
 var gaussianCalculated = 0.0
 
 func Lcg() int {
-	next = (next*1103515245 + 12345) % 2147483648
+	next = (next*a + c) % m
 	return int(next>>16) % (RAND_MAX + 1)
+}
+
+func LcgAllBits() int {
+	next = (next*a + c) % m
+	return int(next)
 }
 
 func Gaussian(stdDev, mean float64) float64 {
