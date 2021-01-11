@@ -1,16 +1,5 @@
 
 export default function findSolution({ b1, b2, sigma, y0, c1, c3, w, epsilon, from, to }) {
-   from = 0;
-   to = 180;
-   c1 = 1;
-   c3 = -1;
-   w = 1;
-   epsilon = 0.05;
-   b1 = 0.01;
-   b2 = 3;
-   sigma = 0.150;
-   y0 = 0.166;   
-
    const res = [];
    let delta = 2;
 
