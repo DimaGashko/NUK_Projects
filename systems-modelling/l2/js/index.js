@@ -1,9 +1,11 @@
 import { debounce } from "../node_modules/throttle-debounce/esm/index.js";
+import findSolution from "./findSolution.js";
 
 const p = document.querySelector('.page-js');
 const args = p.querySelector('.args-js');
 
 initEvents();
+update();
 
 function initEvents() {
    const delayedUpdate = debounce(500, update);
@@ -18,8 +20,8 @@ function initEvents() {
 }
 
 function update() {
-   const args = getArgs();
-   
+   const solution = findSolution(getArgs())
+   console.log(solution);
 }
 
 function getArgs() {
