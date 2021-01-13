@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="./favicon.ico" rel="icon" type="image/x-icon" />
+   <title>Goel-Okumoto Model</title>
+
+   <link rel="stylesheet" href="./styles/base.css">
+   <link rel="stylesheet" href="./styles/index.css">
+
+   <script type="module" src="./js/index.js"></script>
+</head>
+
+<body>
+   <div class="page page-js container">
+      <h1 class="page--title">Goel-Okumoto Model</h1>
+
+      <form class="args args-js" action>
+
+         <ul class="args--list">
+            <li class="args--item">
+               <label class="args--label" for="n">a:</label>
+               <input class="args--input form-control" id="a" type="number" required step="1" value="61">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="b2">b:</label>
+               <input class="args--input form-control" id="b" type="number" required step="0.001" value="0.061">
+            </li>
+            <li class="args--item">
+               <label class="args--label" for="sigma">h:</label>
+               <input class="args--input form-control" id="h" type="number" required step="0.01" min="0.01" max="25" value="1">
+            </li>
+         </ul>
+
+         <button class="args--calc" hidden>Calculate</button>
+      </form>
+
+      <div class="page--chart-container">
+         <canvas class="page--chart chart-js" aria-label="Result chart">
+      </div>
+   </div>
+</body>
+
+</html>

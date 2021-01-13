@@ -1,0 +1,15 @@
+{
+  "name": "continuous-deterministic-model-modelling",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Dmitry Gashko",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "serve": "browser-sync start --server -w --no-open"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "throttle-debounce": "^3.0.1"
+  }
+}
